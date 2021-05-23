@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+version = 1.0
+
+mainClassName = 'ntou.cs.java2021.helloprompt.HelloPrompt'
+
+repositories {
+	mavenCentral();
+}
+
+dependencies {
+	// JGit
+	implementation 'org.spearce:jgit:0.4-47e4af3'
+
+	// Ini4j
+	implementation 'org.ini4j:ini4j:0.5.4'
+
+	// HttpClient
+	implementation 'name.wramner.httpclient:HttpClient:1.1'
+
+	// Google Calendar API
+	implementation 'com.google.api-client:google-api-client:1.31.5'
+	implementation 'com.google.oauth-client:google-oauth-client-jetty:1.31.5'
+	implementation 'com.google.apis:google-api-services-calendar:v3-rev20210429-1.31.0'
+}
