@@ -83,7 +83,8 @@ public class CalendarHandler extends Handler {
 			result.append("No upcoming events found.");
 			// System.out.println("No upcoming events found.");
 		} else {
-			System.out.println("Upcoming events");
+			result.append("Upcoming events\n");
+			// System.out.println("Upcoming events");
 			for (Event event : items) {
 				DateTime start = event.getStart().getDateTime();
 				if (start == null) {
