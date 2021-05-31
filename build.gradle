@@ -8,7 +8,6 @@ mainClassName = 'ntou.cs.java2021.helloprompt.HelloPrompt'
 repositories {
 	mavenCentral();
 }
-
 dependencies {
 	// JGit
 	implementation 'org.spearce:jgit:0.4-47e4af3'
@@ -18,7 +17,8 @@ dependencies {
 
 	// HttpClient
 	implementation 'name.wramner.httpclient:HttpClient:1.1'
-
+	// json API
+	implementation 'org.json:json:20180813'
 	// Google Calendar API
     implementation 'com.google.api-client:google-api-client:1.23.0'
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
