@@ -12,7 +12,11 @@ public class CalendarImageTest {
 	public void showAllMonths(){
 		CalendarImage calendarImage = new CalendarImage();
 		for(int i=1;i<=12;i++){
-			System.out.println(calendarImage.getMonth(i));
+			for(String line: calendarImage.getMonth(i)){
+				System.out.print(line);
+				System.out.println("#");
+			}
+			System.out.println();
 		}
 	}
 }
