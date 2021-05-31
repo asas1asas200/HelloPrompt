@@ -450,12 +450,12 @@ public class CalendarImage{
 "  `~===*%\"`    '**%%%%%%**     ")
 	);
 
-	public List<String> getDay(int day){
+	public static List<String> getDay(int day){
 		return days.get(day-1);
 	}
 
 	private final static List<List<String>> months = Arrays.asList(JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC);
-	public List<String> getMonth(int month){
+	public static List<String> getMonth(int month){
 		return months.get(month-1);
 	}
 }
