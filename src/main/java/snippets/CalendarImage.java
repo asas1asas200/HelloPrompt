@@ -76,6 +76,42 @@ public class CalendarImage{
 "\\ \\ \\/\\ \\ \\ \\  __\\   \\ \\ \\____     ",
 " \\ \\____-  \\ \\_____\\  \\ \\_____\\    ",
 "  \\/____/   \\/_____/   \\/_____/    ");
+	private final static List<String> MON = Arrays.asList(
+"8b   d8 .d88b. 8b  8    ",
+"8YbmdP8 8P  Y8 8Ybm8    ",
+"8  \"  8 8b  d8 8  \"8    ",
+"8     8 `Y88P' 8   8    ");
+	private final static List<String> TUE = Arrays.asList(
+"88888 8    8 8888       ",
+"  8   8    8 8www       ",
+"  8   8b..d8 8          ",
+"  8   `Y88P' 8888       ");
+	private final static List<String> WED = Arrays.asList(
+"Yb        dP 8888 888b. ",
+" Yb  db  dP  8www 8   8 ",
+"  YbdPYbdP   8    8   8 ",
+"   YP  YP    8888 888P' ");
+	private final static List<String> THU = Arrays.asList(
+"88888 8   8 8    8      ",
+"  8   8www8 8    8      ",
+"  8   8   8 8b..d8      ",
+"  8   8   8 `Y88P'      ");
+	private final static List<String> FRI = Arrays.asList(
+"8888 888b. 888          ",
+"8www 8  .8  8           ",
+"8    8wwK'  8           ",
+"8    8  Yb 888          ");
+	private final static List<String> SAT = Arrays.asList(
+".d88b.    db    88888   ",
+"YPwww.   dPYb     8     ",
+"    d8  dPwwYb    8     ",
+"`Y88P' dP    Yb   8     ");
+	private final static List<String> SUN = Arrays.asList(
+".d88b. 8    8 8b  8     ",
+"YPwww. 8    8 8Ybm8     ",
+"    d8 8b..d8 8  \"8     ",
+"`Y88P' `Y88P' 8   8     ");
+
 	private final static List<List<String>> days = Arrays.asList(
 		Arrays.asList(
 "            oe                 ",
@@ -457,5 +493,10 @@ public class CalendarImage{
 	private final static List<List<String>> months = Arrays.asList(JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC);
 	public static List<String> getMonth(int month){
 		return months.get(month-1);
+	}
+
+	private final static List<List<String>> daysOfWeek = Arrays.asList(MON, TUE, WED, THU, FRI, SAT, SUN);
+	public static List<String> getDayOfWeek(int dayOfWeek){
+		return daysOfWeek.get(dayOfWeek-1);
 	}
 }
