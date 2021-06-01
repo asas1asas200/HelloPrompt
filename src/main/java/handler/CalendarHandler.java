@@ -94,7 +94,7 @@ public class CalendarHandler extends Handler {
 				}
 				
 				// System.out.printf("%s (%s)\n", event.getSummary(), start);
-				activities.add(String.format("%s (%s)\n", event.getSummary(), start));
+				activities.add(String.format("%s (%s)", event.getSummary(), start));
 			}
 		}
 		return activities;
@@ -113,20 +113,50 @@ public class CalendarHandler extends Handler {
 	@Override
 	public String toString(){
 		StringBuilder output = new StringBuilder();
-		for(String monthImage: CalendarImage.getMonth(today.getMonthValue())){
-			output.append(monthImage + "\n");
+		// Height: 5
+		List<String> monthImage = CalendarImage.getMonth(today.getMonthValue());
+
+		// Height: 11
+		List<String> dayImage = CalendarImage.getDay(today.getDayOfMonth());
+
+		// Height: 4
+		List<String> dayOfWeekImage = CalendarImage.getDayOfWeek(today.getDayOfWeek().toString());
+
+		// Width: 11
+		String weekdayLayoutOffset = "           ";
+
+		// Width: 35
+		String blockLayoutOffset = "                                   ";
+
+		List<String> activities;
+		try{
+			activities = getCalendarInfo();
+		} catch (GeneralSecurityException | IOException e){
+			activities = new ArrayList<String>();
+			activities.add(String.format("An error occurred when load calendar info: \n%s", e));
 		}
-		for(String dayImage: CalendarImage.getDay(today.getDayOfMonth())){
-			output.append(dayImage + "\n");
-		}
-		try {
-			List<String> activities = getCalendarInfo();
-			for(String activity: activities){
-				output.append(activity);
+
+		for(int i=0;i<11;i++){
+			if(i<5) {			// monthImage.size() is 5
+				output.append(monthImage.get(i));
 			}
-		} catch(GeneralSecurityException | IOException e) {
-			output.append(String.format("An error occurred when load calendar info: \n%s", e));
+			else if(i<9) {		// dayOfWeekImage.size() is 4
+				output.append(weekdayLayoutOffset);
+				output.append(dayOfWeekImage.get(i-5));
+			}
+			else {
+				output.append(blockLayoutOffset);
+			}
+			output.append('#');
+
+			output.append(dayImage.get(i));
+			output.append('#');
+
+			if(i<activities.size())
+				output.append(activities.get(i));
+			output.append('\n');
 		}
+
 		return output.toString();
 	}
 }

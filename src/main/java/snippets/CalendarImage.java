@@ -2,6 +2,8 @@ package ntou.cs.java2021.helloprompt;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 
 public class CalendarImage{
 	private final static List<String> JAN = Arrays.asList(
@@ -495,8 +497,22 @@ public class CalendarImage{
 		return months.get(month-1);
 	}
 
+	private final static Map<String, Integer> dayOfWeekMapping = new HashMap<String, Integer>(){{
+		put("MONDAY", 0);
+		put("TUESDAY", 1);
+		put("WEDNESDAY", 2);
+		put("THURSDAY", 3);
+		put("FRIDAY", 4);
+		put("SATURDAY", 5);
+		put("SUNDAY", 6);
+	}};
+
 	private final static List<List<String>> daysOfWeek = Arrays.asList(MON, TUE, WED, THU, FRI, SAT, SUN);
 	public static List<String> getDayOfWeek(int dayOfWeek){
 		return daysOfWeek.get(dayOfWeek-1);
+	}
+
+	public static List<String> getDayOfWeek(String dayOfWeek){
+		return daysOfWeek.get(dayOfWeekMapping.get(dayOfWeek));
 	}
 }
