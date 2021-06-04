@@ -10,6 +10,6 @@ Prompt some informations on your screen when opened terminal.
 ```
 $ git clone https://github.com/asas1asas200/HelloPrompt.git
 $ cd HelloPrompt
-$ gradle build
-$ gradle run # or run in quiet mode $ gradle run -q 
+$ ./gradlew build
+$ ./gradlew run # or run in quiet mode $ gradle run -q 
 ```
