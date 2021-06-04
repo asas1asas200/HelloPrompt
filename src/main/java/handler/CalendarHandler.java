@@ -23,6 +23,8 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 import javax.imageio.IIOException;
 
@@ -62,8 +64,8 @@ public class CalendarHandler extends Handler {
 		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 	}
 
-	private String getCalenderInfo() throws IOException, GeneralSecurityException {
-		StringBuilder result = new StringBuilder();
+	private List<String> getCalendarInfo() throws IOException, GeneralSecurityException {
+		List<String> activities = new ArrayList<String>();
 		// Build a new authorized API client service.
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 		Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
@@ -80,10 +82,10 @@ public class CalendarHandler extends Handler {
 				.execute();
 		List<Event> items = events.getItems();
 		if (items.isEmpty()) {
-			result.append("No upcoming events found.");
+			activities.add("No upcoming events found.\n");
 			// System.out.println("No upcoming events found.");
 		} else {
-			result.append("Upcoming events\n");
+			// activities.add("Upcoming events\n");
 			// System.out.println("Upcoming events");
 			for (Event event : items) {
 				DateTime start = event.getStart().getDateTime();
@@ -92,14 +94,16 @@ public class CalendarHandler extends Handler {
 				}
 				
 				// System.out.printf("%s (%s)\n", event.getSummary(), start);
-				result.append(String.format("%s (%s)\n", event.getSummary(), start));
+				activities.add(String.format("%s (%s)", event.getSummary(), start));
 			}
 		}
-		return result.toString();
+		return activities;
 	}
 
+	private LocalDateTime today;
 	public CalendarHandler(){
 		ifOutput = true;
+		today = LocalDateTime.now();
 	}
 
 	@Override
@@ -108,12 +112,53 @@ public class CalendarHandler extends Handler {
 
 	@Override
 	public String toString(){
-		String output;
-		try {
-			output = getCalenderInfo();
-		} catch(GeneralSecurityException | IOException e) {
-			output = String.format("An error occurred when load calendar info: \n%s", e);
+		StringBuilder output = new StringBuilder();
+		// Height: 5
+		List<String> monthImage = CalendarImage.getMonth(today.getMonthValue());
+
+		// Height: 11
+		List<String> dayImage = CalendarImage.getDay(today.getDayOfMonth());
+
+		// Height: 4
+		List<String> dayOfWeekImage = CalendarImage.getDayOfWeek(today.getDayOfWeek().toString());
+
+		// Width: 11
+		String weekdayLayoutOffset = "           ";
+
+		// Width: 35
+		String blockLayoutOffset = "                                   ";
+
+		List<String> activities;
+		try{
+			activities = getCalendarInfo();
+		} catch (GeneralSecurityException | IOException e){
+			activities = new ArrayList<String>();
+			// activities.add(String.format("An error occurred when load calendar info: \n%s", e));
+			activities.add(String.format("An error occurred when load calendar info: "));
+			activities.add(String.format("%s", e));
 		}
-		return output;
+
+		for(int i=0;i<11;i++){
+			if(i<5) {			// monthImage.size() is 5
+				output.append(monthImage.get(i));
+			}
+			else if(i<9) {		// dayOfWeekImage.size() is 4
+				output.append(weekdayLayoutOffset);
+				output.append(dayOfWeekImage.get(i-5));
+			}
+			else {
+				output.append(blockLayoutOffset);
+			}
+			output.append('#');
+
+			output.append(dayImage.get(i));
+			output.append('#');
+
+			if(i<activities.size())
+				output.append(activities.get(i));
+			output.append('\n');
+		}
+
+		return output.toString();
 	}
 }
