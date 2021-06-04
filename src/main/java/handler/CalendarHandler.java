@@ -139,8 +139,9 @@ public class CalendarHandler extends Handler {
 			activities = new ArrayList<String>();
 			// activities.add(String.format("An error occurred when load calendar info: \n%s", e));
 			activities.add(String.format("An error occurred when load calendar info: "));
-			// TODO: Seperate error type and error message.
-			activities.add(String.format("%s", e));
+
+			activities.add(String.format("\t%s:", e.getClass().getCanonicalName()));
+			activities.add(String.format("\t%s", e.getMessage()));
 		}
 
 
