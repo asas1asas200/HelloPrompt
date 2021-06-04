@@ -144,24 +144,39 @@ public class CalendarHandler extends Handler {
 			activities.add(String.format("\t%s", e.getMessage()));
 		}
 
+		String dayColor;
+		switch(today.getDayOfWeek().toString()){
+			case "SUNDAY":
+			case "SATURDAY":
+				dayColor = ANSIColor.RED.toString();
+			default:
+				dayColor = ANSIColor.CYAN.toString();
+		}
 
 		for(int i=0;i<11;i++){
 			if(i<5) {			// monthImage.size() is 5
+				output.append(ANSIColor.GREEN.toString());
 				output.append(monthImage.get(i));
+				output.append(ANSIColor.RESET.toString());
 			}
 			else if(i==5){
 				output.append(horizontalBorder);
 			}
 			else if(i<10) {		// dayOfWeekImage.size() is 4
 				output.append(weekdayLayoutOffset);
+				output.append(dayColor);
 				output.append(dayOfWeekImage.get(i-6));
+				output.append(ANSIColor.RESET.toString());
 			}
 			else {
 				output.append(blockLayoutOffset);
 			}
 			output.append('|');
 
+			output.append(dayColor);
 			output.append(dayImage.get(i));
+			output.append(ANSIColor.RESET.toString());
+
 			output.append('|');
 
 			if(i<activities.size())
