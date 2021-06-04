@@ -133,7 +133,9 @@ public class CalendarHandler extends Handler {
 			activities = getCalendarInfo();
 		} catch (GeneralSecurityException | IOException e){
 			activities = new ArrayList<String>();
-			activities.add(String.format("An error occurred when load calendar info: \n%s", e));
+			// activities.add(String.format("An error occurred when load calendar info: \n%s", e));
+			activities.add(String.format("An error occurred when load calendar info: "));
+			activities.add(String.format("%s", e));
 		}
 
 		for(int i=0;i<11;i++){
