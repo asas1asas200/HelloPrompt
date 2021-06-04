@@ -110,13 +110,15 @@ public class CalendarHandler extends Handler {
 	protected void readConfig(String fileName){
 	}
 
-	private void render(
+	private String render(
 		List<String> monthImage,
 		List<String> dayImage,
 		List<String> dayOfWeekImage,
 		List<String> activities,
-		String dayColor,
-		StringBuilder output) {
+		String dayColor) {
+
+		StringBuilder output = new StringBuilder();
+
 		// Width: 11
 		final String weekdayLayoutOffset = "           ";
 
@@ -158,11 +160,12 @@ public class CalendarHandler extends Handler {
 				output.append(activities.get(i));
 			output.append('\n');
 		}
+
+		return output.toString();
 	}
 
 	@Override
 	public String toString(){
-		StringBuilder output = new StringBuilder();
 		// Height: 5
 		List<String> monthImage = CalendarImage.getMonth(today.getMonthValue());
 
@@ -193,8 +196,6 @@ public class CalendarHandler extends Handler {
 				dayColor = ANSIColor.CYAN.toString();
 		}
 
-		render(monthImage, dayImage, dayOfWeekImage, activities, dayColor, output);	
-
-		return output.toString();
+		return render(monthImage, dayImage, dayOfWeekImage, activities, dayColor);
 	}
 }
