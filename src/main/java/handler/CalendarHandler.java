@@ -123,10 +123,14 @@ public class CalendarHandler extends Handler {
 		List<String> dayOfWeekImage = CalendarImage.getDayOfWeek(today.getDayOfWeek().toString());
 
 		// Width: 11
-		String weekdayLayoutOffset = "           ";
+		final String weekdayLayoutOffset = "           ";
 
 		// Width: 35
-		String blockLayoutOffset = "                                   ";
+		final String blockLayoutOffset = "                                   ";
+
+		// Width: 35
+		// final String horizontalBorder = "-----------------------------------";
+		final String horizontalBorder = "___________________________________";
 
 		List<String> activities;
 		try{
@@ -135,24 +139,29 @@ public class CalendarHandler extends Handler {
 			activities = new ArrayList<String>();
 			// activities.add(String.format("An error occurred when load calendar info: \n%s", e));
 			activities.add(String.format("An error occurred when load calendar info: "));
+			// TODO: Seperate error type and error message.
 			activities.add(String.format("%s", e));
 		}
+
 
 		for(int i=0;i<11;i++){
 			if(i<5) {			// monthImage.size() is 5
 				output.append(monthImage.get(i));
 			}
-			else if(i<9) {		// dayOfWeekImage.size() is 4
+			else if(i==5){
+				output.append(horizontalBorder);
+			}
+			else if(i<10) {		// dayOfWeekImage.size() is 4
 				output.append(weekdayLayoutOffset);
-				output.append(dayOfWeekImage.get(i-5));
+				output.append(dayOfWeekImage.get(i-6));
 			}
 			else {
 				output.append(blockLayoutOffset);
 			}
-			output.append('#');
+			output.append('|');
 
 			output.append(dayImage.get(i));
-			output.append('#');
+			output.append('|');
 
 			if(i<activities.size())
 				output.append(activities.get(i));
