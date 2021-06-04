@@ -110,18 +110,13 @@ public class CalendarHandler extends Handler {
 	protected void readConfig(String fileName){
 	}
 
-	@Override
-	public String toString(){
-		StringBuilder output = new StringBuilder();
-		// Height: 5
-		List<String> monthImage = CalendarImage.getMonth(today.getMonthValue());
-
-		// Height: 11
-		List<String> dayImage = CalendarImage.getDay(today.getDayOfMonth());
-
-		// Height: 4
-		List<String> dayOfWeekImage = CalendarImage.getDayOfWeek(today.getDayOfWeek().toString());
-
+	private void render(
+		List<String> monthImage,
+		List<String> dayImage,
+		List<String> dayOfWeekImage,
+		List<String> activities,
+		String dayColor,
+		StringBuilder output) {
 		// Width: 11
 		final String weekdayLayoutOffset = "           ";
 
@@ -132,26 +127,6 @@ public class CalendarHandler extends Handler {
 		// final String horizontalBorder = "-----------------------------------";
 		final String horizontalBorder = "___________________________________";
 
-		List<String> activities;
-		try{
-			activities = getCalendarInfo();
-		} catch (GeneralSecurityException | IOException e){
-			activities = new ArrayList<String>();
-			// activities.add(String.format("An error occurred when load calendar info: \n%s", e));
-			activities.add(String.format("An error occurred when load calendar info: "));
-
-			activities.add(String.format("\t%s:", e.getClass().getCanonicalName()));
-			activities.add(String.format("\t%s", e.getMessage()));
-		}
-
-		String dayColor;
-		switch(today.getDayOfWeek().toString()){
-			case "SUNDAY":
-			case "SATURDAY":
-				dayColor = ANSIColor.RED.toString();
-			default:
-				dayColor = ANSIColor.CYAN.toString();
-		}
 
 		for(int i=0;i<11;i++){
 			if(i<5) {			// monthImage.size() is 5
@@ -183,6 +158,42 @@ public class CalendarHandler extends Handler {
 				output.append(activities.get(i));
 			output.append('\n');
 		}
+	}
+
+	@Override
+	public String toString(){
+		StringBuilder output = new StringBuilder();
+		// Height: 5
+		List<String> monthImage = CalendarImage.getMonth(today.getMonthValue());
+
+		// Height: 11
+		List<String> dayImage = CalendarImage.getDay(today.getDayOfMonth());
+
+		// Height: 4
+		List<String> dayOfWeekImage = CalendarImage.getDayOfWeek(today.getDayOfWeek().toString());
+
+		List<String> activities;
+		try{
+			activities = getCalendarInfo();
+		} catch (GeneralSecurityException | IOException e){
+			activities = new ArrayList<String>();
+			// activities.add(String.format("An error occurred when load calendar info: \n%s", e));
+			activities.add(String.format("An error occurred when load calendar info: "));
+
+			activities.add(String.format("\t%s:", e.getClass().getCanonicalName()));
+			activities.add(String.format("\t%s", e.getMessage()));
+		}
+
+		String dayColor;
+		switch(today.getDayOfWeek().toString()){
+			case "SUNDAY":
+			case "SATURDAY":
+				dayColor = ANSIColor.RED.toString();
+			default:
+				dayColor = ANSIColor.CYAN.toString();
+		}
+
+		render(monthImage, dayImage, dayOfWeekImage, activities, dayColor, output);	
 
 		return output.toString();
 	}
