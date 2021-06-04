@@ -110,6 +110,19 @@ public class CalendarHandler extends Handler {
 	protected void readConfig(String fileName){
 	}
 
+	/** render example
+	 *    __     __  __     __   __       |              xeee             |An error occurred when load calendar info:
+	 *   /\ \   /\ \/\ \   /\ "-.\ \      |             d888R             |  java.io.FileNotFoundException:
+	 *  _\_\ \  \ \ \_\ \  \ \ \-.  \     |            d8888R             |  Resource not found: /credentials.json
+	 * /\_____\  \ \_____\  \ \_\\"\_\    |           @ 8888R             |
+	 * \/_____/   \/_____/   \/_/ \/_/    |         .P  8888R             |
+	 * ___________________________________|        :F   8888R             |
+	 *            8888 888b. 888          |       x"    8888R             |
+	 *            8www 8  .8  8           |      d8eeeee88888eer          |
+	 *            8    8wwK'  8           |             8888R             |
+	 *            8    8  Yb 888          |             8888R             |
+	 *                                    |          "*%%%%%%**~          |
+	 */
 	private String render(
 		List<String> monthImage,
 		List<String> dayImage,
