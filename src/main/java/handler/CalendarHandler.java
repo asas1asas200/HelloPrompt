@@ -82,7 +82,7 @@ public class CalendarHandler extends Handler {
 				.execute();
 		List<Event> items = events.getItems();
 		if (items.isEmpty()) {
-			activities.add("No upcoming events found.\n");
+			activities.add("No upcoming events found.");
 			// System.out.println("No upcoming events found.");
 		} else {
 			// activities.add("Upcoming events\n");
