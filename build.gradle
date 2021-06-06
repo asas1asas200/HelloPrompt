@@ -19,8 +19,12 @@ dependencies {
 	implementation 'name.wramner.httpclient:HttpClient:1.1'
 	// json API
 	implementation 'org.json:json:20180813'
+	// geolocation api
+	implementation 'com.maxmind.geoip2:geoip2:2.15.0'
+	implementation 'com.maxmind.db:maxmind-db:2.0.0'
 	// Google Calendar API
     implementation 'com.google.api-client:google-api-client:1.23.0'
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     implementation 'com.google.apis:google-api-services-calendar:v3-rev305-1.23.0'
+
 }

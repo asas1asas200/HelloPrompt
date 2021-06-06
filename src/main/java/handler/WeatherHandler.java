@@ -5,12 +5,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 import org.json.JSONArray;
-import java.time.*;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 import java.util.HashMap;
-import java.util.HashSet;
+
 
 
 import java.util.Scanner;
@@ -21,55 +19,99 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 
-// CWB-E7B5B0DB-C3E7-439E-B21D-56D3B7316D36   授權碼
-// 我現在是直接拿輸入授權碼之後的網址獲取json檔
-// 中央氣象ＡＰＩ
-// 36小時： https://opendata.cwb.gov.tw/dist/opendata-swagger.html#/預報/get_v1_rest_datastore_F_C0032_001  全部
-  
 
 public class WeatherHandler extends Handler{
-    String Urlhrs = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-E7B5B0DB-C3E7-439E-B21D-56D3B7316D36";
-    private ArrayList<Map<Object, Object>> pointed_weather;
+    private static final String TOKENS_DIRECTORY_PATH = "tokens/";
+    private static final String WEATHER_CENTER_FILE_PATH = "weather_center_data.csv";
+    private static final String LOCATION_NAME_URL_PATH = "location_name_url.csv";
+    private static String PW_url;
+    private static String currentUrl;
+    private static String key;
+    private ArrayList<Map<Object, Object>> predict_weather;
+    private Map<Object, Object> current_weather;
     private final String location;
 
     public WeatherHandler(){
-        // ifOutput = true;
+        ifOutput = true;
         this.location = "基隆市";   //預設
         weatherInit();
     }
     public WeatherHandler(String location){
-        // ifOutput = true;
+        ifOutput = true;
         this.location = location;   
         weatherInit();
     }
-    public String getAllWeather(){
-        String datafromHttp= new String();
+    public Map<Object, Object> getCurrentWeather(JSONObject json){
+        Map<Object, Object> weather= new HashMap<Object, Object>();
         try{
-            datafromHttp = getHttp(this.Urlhrs);
+            
+            String temp= new String();
+            String HUMD= new String();; //相對濕度
+
+            JSONArray allLocation = json.getJSONObject("records").getJSONArray("location");
+            for(int i=0; i<allLocation.length(); i++){
+                JSONObject J= allLocation.getJSONObject(i);
+                String city = J.getJSONArray("parameter").getJSONObject(0).get("parameterValue").toString();
+                if(city.equals(location)){
+                    
+                    JSONArray weatherElement= J.getJSONArray("weatherElement");
+                    temp= weatherElement.getJSONObject(3).get("elementValue").toString();
+                    HUMD= weatherElement.getJSONObject(4).get("elementValue").toString();
+                    break;
+                }
+            }
+            weather.put("溫度（攝氏）", temp);
+            weather.put("相對濕度", HUMD);
         }catch(Exception e){
-            System.err.println("get error when getting weather info through Url");
+            System.err.println(e+" in getCurrentWeather");
         }
-        return datafromHttp;
+        return weather;
     }
-    public Map<Object, Object> getCurrentWeather(){
-        return pointed_weather.get(0);
+    public ArrayList<Map<Object, Object>> getPredictWeather(){
+        return predict_weather;
     }
-    public ArrayList<Map<Object, Object>> getLocalWeather(){
-        return pointed_weather;
+
+    public String[] openCsvFile(String path){
+        String data= new String();
+        try{
+            InputStream is = new FileInputStream(path);
+            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+            String line = buf.readLine();
+            StringBuilder sb = new StringBuilder();
+            while (line != null) {
+                sb.append(line).append(",");
+                line = buf.readLine();
+            }
+            buf.close();
+            data= sb.toString();
+        }catch(IOException e){
+            System.err.println(e+" when open a file");
+        }
+        return data.split(",");
     }
-    // 若需要從本地檔案取得資料
-    // public String produceStringFromFile(String fileName)throws IOException{
-    //     InputStream is = new FileInputStream(fileName);
-	// 	BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-	// 	String line = buf.readLine();
-	// 	StringBuilder sb = new StringBuilder();
-	// 	while (line != null) {
-	// 		sb.append(line).append("\n");
-	// 		line = buf.readLine();
-	// 	}
-	// 	buf.close();
-    //     return sb.toString();
-    // }
+
+    public void produceUrlFromFile(String fileName)throws IOException{
+
+        try{
+            String[] str= openCsvFile(fileName);
+            for(int i=0; i<str.length; i++) {
+
+                if(str[i].contains("授權碼")){
+                    this.key= str[i+1];
+                }
+                if(str[i].contains("36hrs預報網址")){
+                    this.PW_url= str[i+1];
+                }
+                if(str[i].contains("當下天氣網址")){
+                    this.currentUrl= str[i+1];
+                    // this.currentUrl= this.currentUrl.replace("\"",");
+                }
+            }
+        }
+        catch(Exception e){
+            System.err.println(e+"in produceUrlFromFile");
+        }
+    }
 
     // 取得根據網址 網路上的資料字串
     public String getHttp(String url)throws IOException{
@@ -85,110 +127,75 @@ public class WeatherHandler extends Handler{
         return allData;
 
     }
-    // 找到指定地區的資訊（並未記錄下來）
-    public JSONObject getLocalweatherJson(JSONObject json)throws Exception{
-        JSONArray allLocation = json.getJSONObject("records").getJSONArray("location");
-        JSONObject o= new JSONObject();
-        for(int i=0; i<allLocation.length(); i++){
-            if(allLocation.getJSONObject(i).get("locationName").equals(location)){
-                o = allLocation.getJSONObject(i);
-                break;
-            }
-        }
-        return o;
-        
-    }
-    // 指定地區的天氣狀態「取得並整理」
-    public ArrayList<Map<Object, Object>> getPointedWeather(JSONObject jsonWeather)throws Exception{
-        ArrayList<Map<String, String>> weatherList= new ArrayList<Map<String, String>>();
-        JSONArray weatherElement = jsonWeather.getJSONArray("weatherElement");
-        for(int j=0; j<weatherElement.length(); j++){
-            // index:0 天氣狀態, 1 降雨機率, 2最低溫度 3.體感變化 4.最高溫度
-            JSONObject element = weatherElement.getJSONObject(j);
-            JSONArray timeArray = element.getJSONArray("time");
-            for(int k=0; k<timeArray.length(); k++){
-                JSONObject info = timeArray.getJSONObject(k);
-                JSONObject parameter = info.getJSONObject("parameter");
-                Object parameterName = parameter.get("parameterName");
-                Object otherparameter;
-                Map<String, String> map = new HashMap<String, String>();
-
-                Object start= info.get("startTime");
-                Object end= info.get("endTime");
-                map.put("startTime", start.toString());
-                map.put("endTime", end.toString());
-                map.put("Name", parameterName.toString());
-                switch (j){
-                    case 0:
-                    otherparameter = parameter.get("parameterValue");
-                    map.put("Value", otherparameter.toString());
-                    break;
-                    case 1:
-                    otherparameter = parameter.get("parameterUnit");
-                    map.put("Unit", otherparameter.toString());
-                    break;
-                    case 2:
-                    otherparameter = parameter.get("parameterUnit");
-                    map.put("Unit", otherparameter.toString());
-                    break;
-                    case 4:
-                    otherparameter = parameter.get("parameterUnit");
-                    map.put("Unit", otherparameter.toString());
-                    break;
-                    default:
-                        break;
-                }
-                weatherList.add(map);
-                
-            }
-        }
-        // 整理
+    // 指定地區的預測天氣
+    public ArrayList<Map<Object, Object>> producePredictWeather(JSONObject json)throws Exception{
         ArrayList<Map<Object, Object>> List= new ArrayList<Map<Object, Object>>();
-        for(int i=0; i<3;i++){
-            Map<Object, Object> temp = new HashMap<Object, Object>();
-            temp.put("startTime", weatherList.get(i).get("startTime"));
-            temp.put("endTime", weatherList.get(i).get("endTime")); 
-            int k=0;
-            int p=0;
-            for(int j=i; j<weatherList.size(); j= j+3){
-                if(j%3==i){
-                    ArrayList<String> tarray = new ArrayList<String>();
-                    tarray.add(weatherList.get(j).get("Name"));
-                    switch(p){
+        try{
+            JSONArray allLocation = json.getJSONObject("records").getJSONArray("location");
+            JSONObject jsonWeather= allLocation.getJSONObject(0);
+            JSONArray Elements = jsonWeather.getJSONArray("weatherElement");
+            for(int k=0; k<3; k++){
+                Map<Object, Object> map= new HashMap<Object, Object>();
+                JSONObject sameTimes = Elements.getJSONObject(0).getJSONArray("time").getJSONObject(k);
+                map.put("startTime",sameTimes.get("startTime"));
+                map.put("endTime",sameTimes.get("endTime"));
+                for(int i=0; i<Elements.length();i++){
+                    JSONObject Times =Elements.getJSONObject(i).getJSONArray("time").getJSONObject(k);
+                    JSONObject parameter = Times.getJSONObject("parameter");
+                    ArrayList<Object> plist = new ArrayList<Object>();
+                    plist.add(parameter.get("parameterName"));
+                    switch(i){
                         case 0:
-                        tarray.add(weatherList.get(j).get("Value"));
+                        plist.add(parameter.get("parameterValue"));
                         break;
                         case 1:
-                        tarray.add(weatherList.get(j).get("Unit"));
+                        plist.add(parameter.get("parameterUnit"));
                         break;
                         case 2:
-                        tarray.add(weatherList.get(j).get("Unit"));
+                        plist.add(parameter.get("parameterUnit"));
                         break;
                         case 4:
-                        tarray.add(weatherList.get(j).get("Unit"));
+                        plist.add(parameter.get("parameterUnit"));
                         break;
                         default:
                         break;
                     }
-                    temp.put("info_"+p, tarray);
-                    p= p+1;
-                    
+                    map.put("info_"+i, plist);
                 }
+                List.add(map);
             }
-            List.add(temp);
+            return List;
+        }catch(Exception e){
+            System.err.println(e+" in producePredictWeather");
         }
-        
-        
         return List;
     }
     public void weatherInit(){
         try{
-            String datafromHttp = getHttp(this.Urlhrs);
-            JSONObject Jsonfile = new JSONObject(datafromHttp);
-            JSONObject localweather= getLocalweatherJson(Jsonfile);
-            this.pointed_weather = getPointedWeather(localweather);
+            produceUrlFromFile(TOKENS_DIRECTORY_PATH+WEATHER_CENTER_FILE_PATH);
+
+            String[] list= openCsvFile(TOKENS_DIRECTORY_PATH+LOCATION_NAME_URL_PATH);
+            int i;
+            for(i=0; i<list.length; i++){
+                if(list[i].contains(location)){
+                    PW_url= PW_url+list[i+1];
+                    break;
+                }
+            }
+            if(i ==list.length){
+                System.out.println("Location no found!!");
+                return;
+            }
+            String datafromHttp = getHttp(this.PW_url);
+            JSONObject predict_json = new JSONObject(datafromHttp);
+            predict_weather = producePredictWeather(predict_json);
+
+            String dataCurrentHttp = getHttp(this.currentUrl);
+            JSONObject Jsonfile_C = new JSONObject(dataCurrentHttp);
+            current_weather= getCurrentWeather(Jsonfile_C);
+
         }catch(Exception e){
-            System.err.println("weather init has error");
+            System.err.println("WeatherHandler init has error");
         }
     }
     @Override
@@ -196,9 +203,10 @@ public class WeatherHandler extends Handler{
 	}
     @Override
     public String toString(){
-        String output;
-        output = getCurrentWeather().toString();
-        return output;
+        ArrayList<Map<Object, Object>> list= new ArrayList<Map<Object, Object>>(predict_weather);
+        list.add(0, current_weather);
+        
+        return list.toString();
     }
 
 }
