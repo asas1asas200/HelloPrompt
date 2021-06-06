@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"ntou.cs.java2021.helloprompt"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"handler"},{"l":"snippets"}]
