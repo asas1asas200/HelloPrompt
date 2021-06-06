@@ -34,14 +34,15 @@ public class CalendarHandler extends Handler {
 	private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
 	/**
-	 * Global instance of the scopes required by this quickstart.
-	 * If modifying these scopes, delete your previously saved tokens/ folder.
+	 * Global instance of the scopes required by this quickstart. If modifying these
+	 * scopes, delete your previously saved tokens/ folder.
 	 */
 	private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
 	private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
 	/**
 	 * Creates an authorized Credential object.
+	 * 
 	 * @param HTTP_TRANSPORT The network HTTP Transport.
 	 * @return An authorized Credential object.
 	 * @throws IOException If the credentials.json file cannot be found.
@@ -55,11 +56,10 @@ public class CalendarHandler extends Handler {
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
 		// Build flow and trigger user authorization request.
-		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-				HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-				.setAccessType("offline")
-				.build();
+		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
+				clientSecrets, SCOPES)
+						.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+						.setAccessType("offline").build();
 		LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
 		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 	}
@@ -69,17 +69,12 @@ public class CalendarHandler extends Handler {
 		// Build a new authorized API client service.
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 		Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-				.setApplicationName(APPLICATION_NAME)
-				.build();
+				.setApplicationName(APPLICATION_NAME).build();
 
 		// List the next 10 events from the primary calendar.
 		DateTime now = new DateTime(System.currentTimeMillis());
-		Events events = service.events().list("primary")
-				.setMaxResults(10)
-				.setTimeMin(now)
-				.setOrderBy("startTime")
-				.setSingleEvents(true)
-				.execute();
+		Events events = service.events().list("primary").setMaxResults(10).setTimeMin(now).setOrderBy("startTime")
+				.setSingleEvents(true).execute();
 		List<Event> items = events.getItems();
 		if (items.isEmpty()) {
 			activities.add("No upcoming events found.");
@@ -92,7 +87,7 @@ public class CalendarHandler extends Handler {
 				if (start == null) {
 					start = event.getStart().getDate();
 				}
-				
+
 				// System.out.printf("%s (%s)\n", event.getSummary(), start);
 				activities.add(String.format("%s (%s)", event.getSummary(), start));
 			}
@@ -101,15 +96,17 @@ public class CalendarHandler extends Handler {
 	}
 
 	private LocalDateTime today;
-	public CalendarHandler(){
+
+	public CalendarHandler() {
 		ifOutput = true;
 		today = LocalDateTime.now();
 	}
 
 	@Override
-	protected void readConfig(String fileName){
+	protected void readConfig(String fileName) {
 	}
 
+	//@formatter:off
 	/** render example
 	 *    __     __  __     __   __       |              xeee             |An error occurred when load calendar info:
 	 *   /\ \   /\ \/\ \   /\ "-.\ \      |             d888R             |  java.io.FileNotFoundException:
@@ -123,12 +120,9 @@ public class CalendarHandler extends Handler {
 	 *            8    8  Yb 888          |             8888R             |
 	 *                                    |          "*%%%%%%**~          |
 	 */
-	private String render(
-		List<String> monthImage,
-		List<String> dayImage,
-		List<String> dayOfWeekImage,
-		List<String> activities,
-		String dayColor) {
+	//@formatter:on
+	private String render(List<String> monthImage, List<String> dayImage, List<String> dayOfWeekImage,
+			List<String> activities, String dayColor) {
 
 		StringBuilder output = new StringBuilder();
 
@@ -142,23 +136,19 @@ public class CalendarHandler extends Handler {
 		// final String horizontalBorder = "-----------------------------------";
 		final String horizontalBorder = "___________________________________";
 
-
-		for(int i=0;i<11;i++){
-			if(i<5) {			// monthImage.size() is 5
+		for (int i = 0; i < 11; i++) {
+			if (i < 5) { // monthImage.size() is 5
 				output.append(ANSIColor.GREEN.toString());
 				output.append(monthImage.get(i));
 				output.append(ANSIColor.RESET.toString());
-			}
-			else if(i==5){
+			} else if (i == 5) {
 				output.append(horizontalBorder);
-			}
-			else if(i<10) {		// dayOfWeekImage.size() is 4
+			} else if (i < 10) { // dayOfWeekImage.size() is 4
 				output.append(weekdayLayoutOffset);
 				output.append(dayColor);
-				output.append(dayOfWeekImage.get(i-6));
+				output.append(dayOfWeekImage.get(i - 6));
 				output.append(ANSIColor.RESET.toString());
-			}
-			else {
+			} else {
 				output.append(blockLayoutOffset);
 			}
 			output.append('|');
@@ -169,7 +159,7 @@ public class CalendarHandler extends Handler {
 
 			output.append('|');
 
-			if(i<activities.size())
+			if (i < activities.size())
 				output.append(activities.get(i));
 			output.append('\n');
 		}
@@ -178,7 +168,7 @@ public class CalendarHandler extends Handler {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		// Height: 5
 		List<String> monthImage = CalendarImage.getMonth(today.getMonthValue());
 
@@ -189,11 +179,12 @@ public class CalendarHandler extends Handler {
 		List<String> dayOfWeekImage = CalendarImage.getDayOfWeek(today.getDayOfWeek().toString());
 
 		List<String> activities;
-		try{
+		try {
 			activities = getCalendarInfo();
-		} catch (GeneralSecurityException | IOException e){
+		} catch (GeneralSecurityException | IOException e) {
 			activities = new ArrayList<String>();
-			// activities.add(String.format("An error occurred when load calendar info: \n%s", e));
+			// activities.add(String.format("An error occurred when load calendar info:
+			// \n%s", e));
 			activities.add(String.format("An error occurred when load calendar info: "));
 
 			activities.add(String.format("\t%s:", e.getClass().getCanonicalName()));
@@ -201,7 +192,7 @@ public class CalendarHandler extends Handler {
 		}
 
 		String dayColor;
-		switch(today.getDayOfWeek().toString()){
+		switch (today.getDayOfWeek().toString()) {
 			case "SUNDAY":
 			case "SATURDAY":
 				dayColor = ANSIColor.RED.toString();

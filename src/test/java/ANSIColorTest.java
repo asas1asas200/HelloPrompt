@@ -18,7 +18,7 @@ public class ANSIColorTest {
 	@Test
 	public void allColorOutputTest() {
 		String reset = ANSIColor.RESET.toString();
-		for(ANSIColor color: ANSIColor.values()){
+		for (ANSIColor color : ANSIColor.values()) {
 			System.out.println(color + color.name() + reset);
 		}
 	}
@@ -28,7 +28,8 @@ public class ANSIColorTest {
 		List<ANSIColor> colors = Arrays.asList(ANSIColor.values());
 		ANSIColor textColor = colors.get(random.nextInt(8) + 1);
 		ANSIColor backgroundColor = colors.get(random.nextInt(8) + 9);
-		System.out.println(textColor.toString() + backgroundColor.toString() + textColor.name() + " with " + backgroundColor.name() + colors.get(0).toString());
+		System.out.println(textColor.toString() + backgroundColor.toString() + textColor.name() + " with "
+				+ backgroundColor.name() + colors.get(0).toString());
 	}
 
 }
