@@ -1,4 +1,7 @@
 # HelloPrompt
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2f022b61c14a433891b47ee329bc7900)](https://app.codacy.com/gh/asas1asas200/HelloPrompt?utm_source=github.com&utm_medium=referral&utm_content=asas1asas200/HelloPrompt&utm_campaign=Badge_Grade_Settings)
+
 Prompt some informations on your screen when opened terminal.
 
 # Prerequirements
