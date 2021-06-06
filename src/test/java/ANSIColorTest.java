@@ -1,5 +1,3 @@
-package ntou.cs.java2021.helloprompt;
-
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -10,6 +8,8 @@ import java.security.SecureRandom;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import snippets.ANSIColor;
 
 @RunWith(JUnit4.class)
 public class ANSIColorTest {

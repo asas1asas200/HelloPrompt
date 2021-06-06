@@ -1,7 +1,7 @@
-package ntou.cs.java2021.helloprompt;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import handler.*;
 
 public class CLI {
 	private List<Handler> handlers;

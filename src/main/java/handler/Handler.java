@@ -1,4 +1,4 @@
-package ntou.cs.java2021.helloprompt;
+package handler;
 
 public abstract class Handler {
 	public Boolean ifOutput;

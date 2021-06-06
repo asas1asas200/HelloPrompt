@@ -1,4 +1,4 @@
-package ntou.cs.java2021.helloprompt;
+package snippets;
 
 import java.util.List;
 import java.util.Arrays;

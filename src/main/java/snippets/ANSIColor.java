@@ -1,4 +1,4 @@
-package ntou.cs.java2021.helloprompt;
+package snippets;
 
 public enum ANSIColor {
 	RESET("0m"),

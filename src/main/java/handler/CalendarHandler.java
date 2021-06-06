@@ -1,4 +1,4 @@
-package ntou.cs.java2021.helloprompt;
+package handler;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 
-import javax.imageio.IIOException;
+import snippets.*;
 
 public class CalendarHandler extends Handler {
 	private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
