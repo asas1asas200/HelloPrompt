@@ -82,7 +82,7 @@ public class CalendarHandler extends Handler {
 				.execute();
 		List<Event> items = events.getItems();
 		if (items.isEmpty()) {
-			activities.add("No upcoming events found.\n");
+			activities.add("No upcoming events found.");
 			// System.out.println("No upcoming events found.");
 		} else {
 			// activities.add("Upcoming events\n");
@@ -110,9 +110,75 @@ public class CalendarHandler extends Handler {
 	protected void readConfig(String fileName){
 	}
 
+	/** render example
+	 *    __     __  __     __   __       |              xeee             |An error occurred when load calendar info:
+	 *   /\ \   /\ \/\ \   /\ "-.\ \      |             d888R             |  java.io.FileNotFoundException:
+	 *  _\_\ \  \ \ \_\ \  \ \ \-.  \     |            d8888R             |  Resource not found: /credentials.json
+	 * /\_____\  \ \_____\  \ \_\\"\_\    |           @ 8888R             |
+	 * \/_____/   \/_____/   \/_/ \/_/    |         .P  8888R             |
+	 * ___________________________________|        :F   8888R             |
+	 *            8888 888b. 888          |       x"    8888R             |
+	 *            8www 8  .8  8           |      d8eeeee88888eer          |
+	 *            8    8wwK'  8           |             8888R             |
+	 *            8    8  Yb 888          |             8888R             |
+	 *                                    |          "*%%%%%%**~          |
+	 */
+	private String render(
+		List<String> monthImage,
+		List<String> dayImage,
+		List<String> dayOfWeekImage,
+		List<String> activities,
+		String dayColor) {
+
+		StringBuilder output = new StringBuilder();
+
+		// Width: 11
+		final String weekdayLayoutOffset = "           ";
+
+		// Width: 35
+		final String blockLayoutOffset = "                                   ";
+
+		// Width: 35
+		// final String horizontalBorder = "-----------------------------------";
+		final String horizontalBorder = "___________________________________";
+
+
+		for(int i=0;i<11;i++){
+			if(i<5) {			// monthImage.size() is 5
+				output.append(ANSIColor.GREEN.toString());
+				output.append(monthImage.get(i));
+				output.append(ANSIColor.RESET.toString());
+			}
+			else if(i==5){
+				output.append(horizontalBorder);
+			}
+			else if(i<10) {		// dayOfWeekImage.size() is 4
+				output.append(weekdayLayoutOffset);
+				output.append(dayColor);
+				output.append(dayOfWeekImage.get(i-6));
+				output.append(ANSIColor.RESET.toString());
+			}
+			else {
+				output.append(blockLayoutOffset);
+			}
+			output.append('|');
+
+			output.append(dayColor);
+			output.append(dayImage.get(i));
+			output.append(ANSIColor.RESET.toString());
+
+			output.append('|');
+
+			if(i<activities.size())
+				output.append(activities.get(i));
+			output.append('\n');
+		}
+
+		return output.toString();
+	}
+
 	@Override
 	public String toString(){
-		StringBuilder output = new StringBuilder();
 		// Height: 5
 		List<String> monthImage = CalendarImage.getMonth(today.getMonthValue());
 
@@ -122,12 +188,6 @@ public class CalendarHandler extends Handler {
 		// Height: 4
 		List<String> dayOfWeekImage = CalendarImage.getDayOfWeek(today.getDayOfWeek().toString());
 
-		// Width: 11
-		String weekdayLayoutOffset = "           ";
-
-		// Width: 35
-		String blockLayoutOffset = "                                   ";
-
 		List<String> activities;
 		try{
 			activities = getCalendarInfo();
@@ -135,30 +195,20 @@ public class CalendarHandler extends Handler {
 			activities = new ArrayList<String>();
 			// activities.add(String.format("An error occurred when load calendar info: \n%s", e));
 			activities.add(String.format("An error occurred when load calendar info: "));
-			activities.add(String.format("%s", e));
+
+			activities.add(String.format("\t%s:", e.getClass().getCanonicalName()));
+			activities.add(String.format("\t%s", e.getMessage()));
 		}
 
-		for(int i=0;i<11;i++){
-			if(i<5) {			// monthImage.size() is 5
-				output.append(monthImage.get(i));
-			}
-			else if(i<9) {		// dayOfWeekImage.size() is 4
-				output.append(weekdayLayoutOffset);
-				output.append(dayOfWeekImage.get(i-5));
-			}
-			else {
-				output.append(blockLayoutOffset);
-			}
-			output.append('#');
-
-			output.append(dayImage.get(i));
-			output.append('#');
-
-			if(i<activities.size())
-				output.append(activities.get(i));
-			output.append('\n');
+		String dayColor;
+		switch(today.getDayOfWeek().toString()){
+			case "SUNDAY":
+			case "SATURDAY":
+				dayColor = ANSIColor.RED.toString();
+			default:
+				dayColor = ANSIColor.CYAN.toString();
 		}
 
-		return output.toString();
+		return render(monthImage, dayImage, dayOfWeekImage, activities, dayColor);
 	}
 }
