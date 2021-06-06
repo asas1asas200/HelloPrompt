@@ -205,6 +205,7 @@ public class CalendarHandler extends Handler {
 			case "SUNDAY":
 			case "SATURDAY":
 				dayColor = ANSIColor.RED.toString();
+				break;
 			default:
 				dayColor = ANSIColor.CYAN.toString();
 		}
