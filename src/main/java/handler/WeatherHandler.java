@@ -40,10 +40,16 @@ public class WeatherHandler extends Handler{
         ifOutput = true;
         this.location = location;   
     }
-    public ArrayList<Map<Object, Object>> getPredictWeather(){
+    public ArrayList<Map<Object, Object>> getPredictWeather()throws Exception{
+        if(predict_weather==null){
+            throw new NullPointerException("predict_weather hasn't been initalize");
+        }
         return predict_weather;
     }
-    public Map<Object, Object> getCurrentWeather(){
+    public Map<Object, Object> getCurrentWeather()throws Exception{
+        if(current_weather==null){
+            throw new NullPointerException("current_weather hasn't been initalize");
+        }
         return current_weather;
     }
     public String[] openCsvFile(String path)throws IOException{
@@ -94,7 +100,7 @@ public class WeatherHandler extends Handler{
             throw new UnknownHostException("wrong url resource(check csv file)");
         }
     }
-    public Map<Object, Object> produceCurrentWeather(JSONObject json)throws Exception{
+    public void produceCurrentWeather(JSONObject json)throws Exception{
         Map<Object, Object> weather= new HashMap<Object, Object>();
         String temp= new String();
         String HUMD= new String(); //相對濕度
@@ -117,11 +123,11 @@ public class WeatherHandler extends Handler{
         }
         weather.put("溫度（攝氏）", temp);
         weather.put("相對濕度", HUMD);
-        return weather;
+        current_weather=  weather;
     }
 
     // 指定地區的預測天氣
-    public ArrayList<Map<Object, Object>> producePredictWeather(JSONObject json)throws Exception{
+    public void producePredictWeather(JSONObject json)throws Exception{
         ArrayList<Map<Object, Object>> List= new ArrayList<Map<Object, Object>>();
         try{
             JSONArray allLocation = json.getJSONObject("records").getJSONArray("location");
@@ -161,7 +167,7 @@ public class WeatherHandler extends Handler{
             throw new JSONException("\nThe JSON file from predict weather's url has error");
         }
         
-        return List;
+        predict_weather = List;
     }
     public void weatherInit()throws Exception{
             produceUrlFromFile(TOKENS_DIRECTORY_PATH+WEATHER_CENTER_FILE_PATH);
@@ -179,11 +185,11 @@ public class WeatherHandler extends Handler{
             }
             String datafromHttp = getHttp(this.PW_url);
             JSONObject predict_json = new JSONObject(datafromHttp);
-            predict_weather = producePredictWeather(predict_json);
+            producePredictWeather(predict_json);
 
             String dataCurrentHttp = getHttp(this.currentUrl);
             JSONObject Jsonfile_C = new JSONObject(dataCurrentHttp);
-            current_weather= produceCurrentWeather(Jsonfile_C);
+            produceCurrentWeather(Jsonfile_C);
     }
     @Override
 	protected void readConfig(String fileName){
