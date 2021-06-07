@@ -28,6 +28,14 @@ import java.time.LocalDateTime;
 
 import snippets.*;
 
+/**
+ * This handler can read Google Calendar Events if credentials was set.<br>
+ * Otherwise it can only output today's info.
+ * 
+ * @see Handler
+ * 
+ * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ */
 public class CalendarHandler extends Handler {
 	private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -97,6 +105,9 @@ public class CalendarHandler extends Handler {
 
 	private LocalDateTime today;
 
+	/**
+	 * Initialize CalendarHandler and set ifOutput as {@code true}
+	 */
 	public CalendarHandler() {
 		ifOutput = true;
 		today = LocalDateTime.now();
