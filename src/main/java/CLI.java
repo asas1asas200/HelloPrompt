@@ -9,6 +9,7 @@ public class CLI {
 	public CLI() {
 		handlers = new ArrayList<Handler>();
 		handlers.add(new CalendarHandler());
+		handlers.add(new WeatherHandler());
 	}
 
 	public void run() {
