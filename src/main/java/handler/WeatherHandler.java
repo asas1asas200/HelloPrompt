@@ -198,8 +198,8 @@ public class WeatherHandler extends Handler{
     public String toString(){
         try{
             weatherInit();
-            ArrayList<Map<Object, Object>> list= new ArrayList<Map<Object, Object>>(predict_weather);
-            list.add(0, current_weather);
+            ArrayList<Map<Object, Object>> list= new ArrayList<Map<Object, Object>>(getPredictWeather());
+            list.add(0, getCurrentWeather());
             return list.toString();
         }catch(Exception e){
             return "weather handler fail:\n"+e;
