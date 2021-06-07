@@ -136,6 +136,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public abstract class <span class="typeNameLabel">Handler</span>
 extends java.lang.Object</pre>
+<div class="block">This abstract class defined the basic properties of handler. It can be called
+ from other class by
+ 
+ <pre>
+ if (handler.ifOutput)
+        System.out.println(handler.toString());
+ </pre></div>
 </li>
 </ul>
 </div>
@@ -159,7 +166,9 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>java.lang.Boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ifOutput">ifOutput</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Judge if this handler will output prompts.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -203,12 +212,16 @@ extends java.lang.Object</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readConfig(java.lang.String)">readConfig</a></span>&#8203;(java.lang.String&nbsp;fileName)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">This function can get config file by passing filename.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Call this function to get the prompt string of handler.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -241,6 +254,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>ifOutput</h4>
 <pre>public&nbsp;java.lang.Boolean ifOutput</pre>
+<div class="block">Judge if this handler will output prompts.</div>
 </li>
 </ul>
 </li>
@@ -279,6 +293,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>readConfig</h4>
 <pre class="methodSignature">protected abstract&nbsp;void&nbsp;readConfig&#8203;(java.lang.String&nbsp;fileName)</pre>
+<div class="block">This function can get config file by passing filename.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fileName</code> - filename of config file.</dd>
+</dl>
 </li>
 </ul>
 <a id="toString()">
@@ -288,9 +307,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>toString</h4>
 <pre class="methodSignature">public abstract&nbsp;java.lang.String&nbsp;toString()</pre>
+<div class="block">Call this function to get the prompt string of handler.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>String</code> prompt messages.</dd>
 </dl>
 </li>
 </ul>

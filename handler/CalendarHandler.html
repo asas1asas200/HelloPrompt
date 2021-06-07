@@ -137,6 +137,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">CalendarHandler</span>
 extends <a href="Handler.html" title="class in handler">Handler</a></pre>
+<div class="block">This handler can read Google Calendar Events if credentials was set.<br>
+ Otherwise it can only output today's info.</div>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="Handler.html" title="class in handler"><code>Handler</code></a></dd>
+</dl>
 </li>
 </ul>
 </div>
@@ -175,7 +181,9 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">CalendarHandler</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Initialize CalendarHandler and set ifOutput as <code>true</code></div>
+</td>
 </tr>
 </table>
 </li>
@@ -198,12 +206,16 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readConfig(java.lang.String)">readConfig</a></span>&#8203;(java.lang.String&nbsp;fileName)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">This function can get config file by passing filename.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Call this function to get the prompt string of handler.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -236,6 +248,7 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <li class="blockList">
 <h4>CalendarHandler</h4>
 <pre>public&nbsp;CalendarHandler()</pre>
+<div class="block">Initialize CalendarHandler and set ifOutput as <code>true</code></div>
 </li>
 </ul>
 </li>
@@ -255,9 +268,13 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <li class="blockList">
 <h4>readConfig</h4>
 <pre class="methodSignature">protected&nbsp;void&nbsp;readConfig&#8203;(java.lang.String&nbsp;fileName)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="Handler.html#readConfig(java.lang.String)">Handler</a></code></span></div>
+<div class="block">This function can get config file by passing filename.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Handler.html#readConfig(java.lang.String)">readConfig</a></code>&nbsp;in class&nbsp;<code><a href="Handler.html" title="class in handler">Handler</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fileName</code> - filename of config file.</dd>
 </dl>
 </li>
 </ul>
@@ -268,9 +285,13 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <li class="blockList">
 <h4>toString</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;toString()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="Handler.html#toString()">Handler</a></code></span></div>
+<div class="block">Call this function to get the prompt string of handler.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Handler.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="Handler.html" title="class in handler">Handler</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>String</code> prompt messages.</dd>
 </dl>
 </li>
 </ul>
