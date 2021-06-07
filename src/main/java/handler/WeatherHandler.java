@@ -22,7 +22,6 @@ import java.net.UnknownHostException;
 
 
 public class WeatherHandler extends Handler{
-    private static final String TOKENS_DIRECTORY_PATH = "tokens/";
     private static final String WEATHER_CENTER_FILE_PATH = "weather_center_data.csv";
     private static final String LOCATION_NAME_URL_PATH = "location_name_url.csv";
     private static String PW_url;
@@ -55,7 +54,8 @@ public class WeatherHandler extends Handler{
     public String[] openCsvFile(String path)throws IOException{
         String data= new String();
         try{
-            InputStream is = new FileInputStream(path);
+            URL p=  getClass().getClassLoader().getResource(path);
+            InputStream is = getClass().getClassLoader().getResourceAsStream(path);
             BufferedReader buf = new BufferedReader(new InputStreamReader(is));
             String line = buf.readLine();
             StringBuilder sb = new StringBuilder();
@@ -170,9 +170,9 @@ public class WeatherHandler extends Handler{
         predict_weather = List;
     }
     public void weatherInit()throws Exception{
-            produceUrlFromFile(TOKENS_DIRECTORY_PATH+WEATHER_CENTER_FILE_PATH);
+            produceUrlFromFile(WEATHER_CENTER_FILE_PATH);
 
-            String[] list= openCsvFile(TOKENS_DIRECTORY_PATH+LOCATION_NAME_URL_PATH);
+            String[] list= openCsvFile(LOCATION_NAME_URL_PATH);
             int i;
             for(i=0; i<list.length; i++){
                 if(list[i].contains(location)){
