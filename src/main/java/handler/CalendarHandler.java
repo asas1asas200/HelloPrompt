@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 
-import snippets.*;
+import snippets.ANSIColor;
+import snippets.CalendarImage;
 
 /**
  * This handler can read Google Calendar Events if credentials was set.<br>
@@ -47,6 +48,8 @@ public class CalendarHandler extends Handler {
 	 */
 	private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
 	private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+
+	private LocalDateTime today;
 
 	/**
 	 * Creates an authorized Credential object.
@@ -102,8 +105,6 @@ public class CalendarHandler extends Handler {
 		}
 		return activities;
 	}
-
-	private LocalDateTime today;
 
 	/**
 	 * Initialize CalendarHandler and set ifOutput as {@code true}
@@ -210,6 +211,7 @@ public class CalendarHandler extends Handler {
 				break;
 			default:
 				dayColor = ANSIColor.CYAN.toString();
+				break;
 		}
 
 		return render(monthImage, dayImage, dayOfWeekImage, activities, dayColor);

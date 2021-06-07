@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
  */
-public class CalendarImage{
+public class CalendarImage {
 	private final static List<String> JAN = Arrays.asList(
 "   __     ______     __   __       " ,
 "  /\\ \\   /\\  __ \\   /\\ \"-.\\ \\      " ,
@@ -496,6 +496,11 @@ public class CalendarImage{
 	);
 //@formatter:on
 
+	private final static List<List<String>> daysOfWeek = Arrays.asList(MON, TUE, WED, THU, FRI, SAT, SUN);
+
+	private final static List<List<String>> months = Arrays.asList(JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT,
+			NOV, DEC);
+
 	/**
 	 * Get day image by passing an int.
 	 * 
@@ -506,9 +511,6 @@ public class CalendarImage{
 	public static List<String> getDay(int day) {
 		return days.get(day - 1);
 	}
-
-	private final static List<List<String>> months = Arrays.asList(JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT,
-			NOV, DEC);
 
 	/**
 	 * Get month image by passing an int.
@@ -532,8 +534,6 @@ public class CalendarImage{
 			put("SUNDAY", 6);
 		}
 	};
-
-	private final static List<List<String>> daysOfWeek = Arrays.asList(MON, TUE, WED, THU, FRI, SAT, SUN);
 
 	/**
 	 * Get day of week image by passing an int.
