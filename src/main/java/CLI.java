@@ -11,10 +11,19 @@ import handler.*;
 public class CLI {
 	private List<HandlerThread> handlers;
 
+	/**
+	 * A HandlerThread denotes a thread for processing handler, it can run handler
+	 * in parallel and store the result prompt.
+	 */
 	public class HandlerThread extends Thread {
 		private Handler handler;
 		private String result;
 
+		/**
+		 * Constructor of HandlerThread, passing a handler to initialize it.
+		 * 
+		 * @param handler The handler that will run in future.
+		 */
 		public HandlerThread(Handler handler) {
 			this.handler = handler;
 		}
@@ -24,6 +33,11 @@ public class CLI {
 			result = handler.toString();
 		}
 
+		/**
+		 * Get the result prompt after run.
+		 * 
+		 * @return {@code String} Result prompt string.
+		 */
 		public String getResult() {
 			return result;
 		}
