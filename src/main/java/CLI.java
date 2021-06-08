@@ -9,25 +9,51 @@ import handler.*;
  * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
  */
 public class CLI {
-	private List<Handler> handlers;
+	private List<HandlerThread> handlers;
+
+	public class HandlerThread extends Thread {
+		private Handler handler;
+		private String result;
+
+		public HandlerThread(Handler handler) {
+			this.handler = handler;
+		}
+
+		@Override
+		public void run() {
+			result = handler.toString();
+		}
+
+		public String getResult() {
+			return result;
+		}
+	}
 
 	/**
 	 * This contructor defined the handlers that will run.
 	 */
 	public CLI() {
-		handlers = new ArrayList<Handler>();
-		handlers.add(new CalendarHandler());
-		handlers.add(new WeatherHandler());
+		handlers = new ArrayList<HandlerThread>();
+		handlers.add(new HandlerThread(new CalendarHandler()));
+		handlers.add(new HandlerThread(new WeatherHandler()));
 	}
 
 	/**
 	 * Call this function to run all handlers and prompt it!
 	 */
 	public void run() {
-		for (Handler handler : handlers) {
-			if (handler.ifOutput) {
-				System.out.println(handler.toString());
+		for (Thread handler : handlers) {
+			handler.run();
+		}
+		for (Thread handler : handlers) {
+			try {
+				handler.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+		}
+		for (HandlerThread handler : handlers) {
+			System.out.println(handler.getResult());
 		}
 	}
 }
