@@ -57,7 +57,7 @@ public class CLI {
 	 */
 	public void run() {
 		for (Thread handler : handlers) {
-			handler.run();
+			handler.start();
 		}
 		for (Thread handler : handlers) {
 			try {
