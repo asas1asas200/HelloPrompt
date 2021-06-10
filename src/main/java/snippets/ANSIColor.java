@@ -3,7 +3,7 @@ package snippets;
 /**
  * This enum defined the ASNI color snippets for output.
  * 
- * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
  */
 public enum ANSIColor {
 	/** reset all color settings include text and background. */

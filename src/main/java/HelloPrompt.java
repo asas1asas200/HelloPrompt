@@ -5,7 +5,7 @@
  * command line interface now.
  * </p>
  * 
- * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
  */
 public class HelloPrompt {
 	/**

@@ -9,7 +9,7 @@ package handler;
  * 	System.out.println(handler.toString());
  * </pre>
  *
- * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
  */
 public abstract class Handler {
 	/**

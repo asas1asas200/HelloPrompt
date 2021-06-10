@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * This class generate the ascii image about calendar.
  *
- * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
  */
 public class CalendarImage {
 	private final static List<String> JAN = Arrays.asList(

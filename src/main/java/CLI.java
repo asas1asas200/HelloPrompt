@@ -6,7 +6,7 @@ import handler.*;
 /**
  * CLI is a interface for calling all handlers and display prompt on screen.
  *
- * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
  */
 public class CLI {
 	private List<HandlerThread> handlers;
