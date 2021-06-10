@@ -48,8 +48,14 @@ public class WeatherHandler extends Handler{
             LOW_TEMP = weatherInfo.get("info_2").get(0);
             FEEL = weatherInfo.get("info_3").get(0);
             HIGH_TEMP = weatherInfo.get("info_4").get(0);
-            BEGIN = weatherInfo.get("startTime").get(0);
-            END = weatherInfo.get("endTime").get(0);
+            BEGIN = weatherInfo.get("startTime").get(0)
+                                .substring(5, 13)
+                                .replace(" ", "@")
+                                .replace("-", "/");
+            END = weatherInfo.get("endTime").get(0)
+                                .substring(5, 13)
+                                .replace(" ", "@")
+                                .replace("-", "/");
             WEATHER_IMAGE = WeatherImage.getWeatherImage(DESC);
             TEMP_IMAGE = WeatherImage.getTempImage(HIGH_TEMP, LOW_TEMP, false);
             infosArray = new String[] {DESC, CHANCE_OF_RAIN, LOW_TEMP, FEEL, HIGH_TEMP, BEGIN, END};
@@ -190,6 +196,14 @@ public class WeatherHandler extends Handler{
         for(Map<String, ArrayList<String>> weatherInfo: predict_weather){
             predictInfos.add(new PredictInfoParser(weatherInfo));
         }
+
+        // Width of per time: 12
+        for(PredictInfoParser info: predictInfos){
+            output.append(String.format("   %s ~ %s   ", info.BEGIN, info.END));
+            output.append("|");
+        }
+        output.append("\n");
+
         // Width of WeatherImage: 13
         // Width of TempImage: 12
         for(int i=0;i<5;i++){
@@ -200,6 +214,7 @@ public class WeatherHandler extends Handler{
             }
             output.append("\n");
         }
+
         for(PredictInfoParser info: predictInfos){
             // 9 is temp image layout space: 12 - "(_)".length()
             String sizeFormat = "%" + (13 + 9 -info.DESC.length()) + "s";// only support chinese character
