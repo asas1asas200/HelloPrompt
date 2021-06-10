@@ -100,8 +100,8 @@ public class WeatherImage {
 		return UNKNOWN;
 	}
 
-	public static Boolean isUnknown(List<String> ansiImage) {
-		return ansiImage.equals(UNKNOWN);
+	public static Boolean isUnknown(List<String> ANSIImage) {
+		return ANSIImage.equals(UNKNOWN);
 	}
 
 }
