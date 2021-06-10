@@ -12,19 +12,13 @@ import java.util.HashMap;
 import java.util.Scanner;
 import org.json.JSONException;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.security.GeneralSecurityException;
 import java.net.UnknownHostException;
 
 
 public class WeatherHandler extends Handler{
     private static final String WEATHER_CENTER_FILE_PATH = "/weather_center_data.csv";
     private static final String LOCATION_NAME_URL_PATH = "/location_name_url.csv";
-    private static String PW_url;
+    private static String predictUrl;
     private static String currentUrl;
     private static String key;
     private ArrayList<Map<String, ArrayList<String>>> predict_weather;
@@ -50,42 +44,6 @@ public class WeatherHandler extends Handler{
             throw new NullPointerException("current_weather hasn't been initalize");
         }
         return current_weather;
-    }
-    public String[] openCsvFile(String path)throws IOException{
-        String data= new String();
-        try{
-            InputStream is = WeatherHandler.class.getResourceAsStream(path);
-            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-            String line = buf.readLine();
-            StringBuilder sb = new StringBuilder();
-            while (line != null) {
-                sb.append(line).append(",");
-                line = buf.readLine();
-            }
-            buf.close();
-            data= sb.toString();
-            return data.split(",");
-        }
-        catch(Exception e){
-            throw new IOException("files in "+path+" not exist");
-        }
-    }
-
-    public void produceUrlFromFile(String fileName)throws Exception{
-
-        String[] str= openCsvFile(fileName);
-        for(int i=0; i<str.length; i++) {
-
-            if(str[i].contains("授權碼")){
-                this.key= str[i+1];
-            }
-            if(str[i].contains("36hrs預報網址")){
-                this.PW_url= str[i+1];
-            }
-            if(str[i].contains("當下天氣網址")){
-                this.currentUrl= str[i+1];
-            }
-        }
     }
     public String getHttp(String url)throws Exception{
         String allData =new String();
@@ -174,24 +132,16 @@ public class WeatherHandler extends Handler{
             System.out.println(e);
             throw new JSONException("\nThe JSON file from predict weather's url has error");
         }
-        
         predict_weather = List;
     }
-    public void weatherInit()throws Exception{
-            produceUrlFromFile(WEATHER_CENTER_FILE_PATH);
 
-            String[] list= openCsvFile(LOCATION_NAME_URL_PATH);
-            int i;
-            for(i=0; i<list.length; i++){
-                if(list[i].contains(location)){
-                    PW_url= PW_url+list[i+1];
-                    break;
-                }
-            }
-            if(i ==list.length){
-                throw new FileNotFoundException();
-            }
-            String datafromHttp = getHttp(this.PW_url);
+    // 建立資料
+    public void weatherInit()throws Exception{
+            WeatherApi weatherApi =new WeatherApi(location);
+            this.predictUrl= weatherApi.getPredictDataUrl();
+            this.currentUrl= weatherApi.getCurrentDataUrl();
+
+            String datafromHttp = getHttp(this.predictUrl);
             JSONObject predict_json = new JSONObject(datafromHttp);
             producePredictWeather(predict_json);
 
