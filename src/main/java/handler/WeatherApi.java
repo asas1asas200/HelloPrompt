@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
+import snippets.Location;
+
 public class WeatherApi {
     private static final String AUTHORITY_FILE_PATH = "/authority_key.csv";
 
