@@ -68,12 +68,12 @@ public class WeatherImage {
 "\033[38;5;255;1m  * * * *    \033[0m");
 
 	private final static List<String> TEMP = Arrays.asList(
-" _          ",
-"| |" + ANSIColor.RED + "___H%3s°C" + ANSIColor.RESET,
-"|" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
-"|" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|" + ANSIColor.CYAN + "___L%3s°C" + ANSIColor.RESET,
-"|" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
-"(" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")         ");
+"  _          ",
+" | |" + ANSIColor.RED + "___H%3s°C" + ANSIColor.RESET,
+" |" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
+" |" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|" + ANSIColor.CYAN + "___L%3s°C" + ANSIColor.RESET,
+" |" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
+" (" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")         ");
 
 //@formatter:on
 
@@ -85,7 +85,7 @@ public class WeatherImage {
 	public static List<String> getTempImage(String high, String low, Boolean lastLineOffset) {
 		List<String> temp = getTempImage(high, low);
 		if (!lastLineOffset)
-			temp.set(5, "(" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")");
+			temp.set(5, " (" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")");
 		return temp;
 	}
 

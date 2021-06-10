@@ -5,6 +5,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
+import snippets.ANSIColor;
 import snippets.WeatherImage;
 
 import org.json.JSONArray;
@@ -199,13 +200,13 @@ public class WeatherHandler extends Handler{
 
         // Width of per time: 12
         for(PredictInfoParser info: predictInfos){
-            output.append(String.format("   %s ~ %s   ", info.BEGIN, info.END));
+            output.append(String.format("    %s ~ %s   ", info.BEGIN, info.END));
             output.append("|");
         }
         output.append("\n");
 
         // Width of WeatherImage: 13
-        // Width of TempImage: 12
+        // Width of TempImage: 13
         for(int i=0;i<5;i++){
             for(PredictInfoParser info: predictInfos){
                 output.append(info.TEMP_IMAGE.get(i));
@@ -216,10 +217,21 @@ public class WeatherHandler extends Handler{
         }
 
         for(PredictInfoParser info: predictInfos){
-            // 9 is temp image layout space: 12 - "(_)".length()
+            // 9 is temp image layout space: 13 - " (_)".length()
             String sizeFormat = "%" + (13 + 9 -info.DESC.length()) + "s";// only support chinese character
             output.append(info.TEMP_IMAGE.get(5));
             output.append(String.format(sizeFormat, info.DESC));
+            output.append("|");
+        }
+        output.append("\n");
+
+        for(PredictInfoParser info: predictInfos){
+            output.append("FEEL: ");
+            // 26 is temp + weather image layout length
+            // 11 is rainy + "FEEL: " layout length
+            String sizeFormat = "%-" + (26 - 11 - info.FEEL.length()) + "s";// only support chinese character
+            output.append(String.format(sizeFormat, info.FEEL));
+            output.append("🌧️ :" + ANSIColor.BLUE + info.CHANCE_OF_RAIN + ANSIColor.RESET);
             output.append("|");
         }
         output.append("\n");
