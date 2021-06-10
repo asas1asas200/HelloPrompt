@@ -21,8 +21,6 @@ import java.net.UnknownHostException;
 
 
 public class WeatherHandler extends Handler{
-    private String predictUrl;
-    private String currentUrl;
     private ArrayList<Map<String, ArrayList<String>>> predict_weather;
     private Map<String, ArrayList<String>> current_weather;
     private final String location;
@@ -65,21 +63,9 @@ public class WeatherHandler extends Handler{
         ifOutput = true;
         this.location = location;   
     }
-    public ArrayList<Map<String, ArrayList<String>>> getPredictWeather()throws Exception{
-        if(predict_weather==null){
-            throw new NullPointerException("predict_weather hasn't been initalize");
-        }
-        return predict_weather;
-    }
-    public Map<String, ArrayList<String>> getCurrentWeather()throws Exception{
-        if(current_weather==null){
-            throw new NullPointerException("current_weather hasn't been initalize");
-        }
-        return current_weather;
-    }
     public String getHttp(String url)throws Exception{
-        String allData =new String();
         try{
+            String allData;
             Scanner scanner = new Scanner(new URL(url).openStream(), StandardCharsets.UTF_8.toString());
             scanner.useDelimiter("\\A");
             allData =scanner.next();
@@ -92,8 +78,8 @@ public class WeatherHandler extends Handler{
     }
     public void produceCurrentWeather(JSONObject json)throws Exception{
         Map<String, ArrayList<String>> weather= new HashMap<String, ArrayList<String>>();
-        String temp= new String();
-        String humd= new String(); //相對濕度
+        String temp;
+        String humd; //相對濕度
         ArrayList<String> tempList = new ArrayList<String>();
         ArrayList<String> humdList = new ArrayList<String>();
         try{
@@ -171,14 +157,12 @@ public class WeatherHandler extends Handler{
     // 建立資料
     public void weatherInit()throws Exception{
             WeatherApi weatherApi =new WeatherApi(location);
-            this.predictUrl= weatherApi.getPredictDataUrl();
-            this.currentUrl= weatherApi.getCurrentDataUrl();
 
-            String datafromHttp = getHttp(this.predictUrl);
+            String datafromHttp = getHttp(weatherApi.getPredictDataUrl());
             JSONObject predict_json = new JSONObject(datafromHttp);
             producePredictWeather(predict_json);
 
-            String dataCurrentHttp = getHttp(this.currentUrl);
+            String dataCurrentHttp = getHttp(weatherApi.getCurrentDataUrl());
             JSONObject Jsonfile_C = new JSONObject(dataCurrentHttp);
             produceCurrentWeather(Jsonfile_C);
     }
