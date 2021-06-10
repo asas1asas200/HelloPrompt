@@ -67,6 +67,12 @@ public class WeatherImage {
 "\033[38;5;255;1m  * * * *    \033[0m");
 
 //@formatter:on
+
+	public static List<String> getWeatherImage(List<String> weatherDescs) {
+		// Because only index 0 of list contains the information we need.
+		return getWeatherImage(weatherDescs.get(0));
+	}
+
 	public static List<String> getWeatherImage(String weatherDesc) {
 		if (weatherDesc.contains("陰") || weatherDesc.contains("雲")) {
 			if (weatherDesc.contains("晴")) {

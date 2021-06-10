@@ -4,8 +4,12 @@ package handler;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
+
+import snippets.WeatherImage;
+
 import org.json.JSONArray;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -24,6 +28,14 @@ public class WeatherHandler extends Handler{
     private ArrayList<Map<String, ArrayList<String>>> predict_weather;
     private Map<String, ArrayList<String>> current_weather;
     private final String location;
+
+    private static enum InfoWrapper{
+        DESC, CHANCE_OF_RAIN, LOW_TEMP, FEEL, HIGH_TEMP;
+
+        public String wrap(){
+            return "info_" + this.ordinal();
+        }
+    }
 
     public WeatherHandler(){
         ifOutput = true;
@@ -128,7 +140,7 @@ public class WeatherHandler extends Handler{
                 }
                 list.add(map);
             }
-        }catch(Exception e){
+        }catch(JSONException e){
             // throw new JSONException("\nThe JSON file from predict weather's url has error");
         } finally {
             predict_weather = list;
@@ -152,14 +164,32 @@ public class WeatherHandler extends Handler{
     @Override
 	protected void readConfig(String fileName){
 	}
+
+    private String render(){
+        StringBuilder output = new StringBuilder();
+        for(Map<String, ArrayList<String>> weatherInfo: predict_weather){
+            String desc = weatherInfo.get(InfoWrapper.DESC.wrap()).get(0);
+            // System.out.println(weatherInfo.get(InfoWrapper.DESC.wrap()));
+
+            List<String> weatherImage = WeatherImage.getWeatherImage(desc);
+
+            output.append(desc + "\n");
+            for(String line: weatherImage){
+                output.append(line + "\n");
+            }
+            output.append("-------------------\n");
+        }
+        return output.toString();
+    }
+
     @Override
     public String toString(){
         try{
             weatherInit();
-            return ""; // TODO: add render functoin
         }catch(Exception e){
             return "weather handler fail:\n"+e;
         }
+        return render();
     }
 
 }
