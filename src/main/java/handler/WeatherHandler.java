@@ -29,11 +29,30 @@ public class WeatherHandler extends Handler{
     private Map<String, ArrayList<String>> current_weather;
     private final String location;
 
-    private static enum InfoWrapper{
-        DESC, CHANCE_OF_RAIN, LOW_TEMP, FEEL, HIGH_TEMP;
+    private class PredictInfoParser {
+        public final String DESC;
+        public final String CHANCE_OF_RAIN;
+        public final String LOW_TEMP;
+        public final String FEEL;
+        public final String HIGH_TEMP;
+        public final String BEGIN;
+        public final String END;
+        public final List<String> WEATHER_IMAGE;
+        public final List<String> TEMP_IMAGE;
 
-        public String wrap(){
-            return "info_" + this.ordinal();
+        public final String[] infosArray;
+
+        public PredictInfoParser(Map<String, ArrayList<String>> weatherInfo){
+            DESC = weatherInfo.get("info_0").get(0);
+            CHANCE_OF_RAIN = weatherInfo.get("info_1").get(0);
+            LOW_TEMP = weatherInfo.get("info_2").get(0);
+            FEEL = weatherInfo.get("info_3").get(0);
+            HIGH_TEMP = weatherInfo.get("info_4").get(0);
+            BEGIN = weatherInfo.get("startTime").get(0);
+            END = weatherInfo.get("endTime").get(0);
+            WEATHER_IMAGE = WeatherImage.getWeatherImage(DESC);
+            TEMP_IMAGE = WeatherImage.getTempImage(HIGH_TEMP, LOW_TEMP, false);
+            infosArray = new String[] {DESC, CHANCE_OF_RAIN, LOW_TEMP, FEEL, HIGH_TEMP, BEGIN, END};
         }
     }
 
@@ -167,18 +186,29 @@ public class WeatherHandler extends Handler{
 
     private String render(){
         StringBuilder output = new StringBuilder();
+        List<PredictInfoParser> predictInfos = new ArrayList<PredictInfoParser>();
         for(Map<String, ArrayList<String>> weatherInfo: predict_weather){
-            String desc = weatherInfo.get(InfoWrapper.DESC.wrap()).get(0);
-            // System.out.println(weatherInfo.get(InfoWrapper.DESC.wrap()));
-
-            List<String> weatherImage = WeatherImage.getWeatherImage(desc);
-
-            output.append(desc + "\n");
-            for(String line: weatherImage){
-                output.append(line + "\n");
-            }
-            output.append("-------------------\n");
+            predictInfos.add(new PredictInfoParser(weatherInfo));
         }
+        // Width of WeatherImage: 13
+        // Width of TempImage: 12
+        for(int i=0;i<5;i++){
+            for(PredictInfoParser info: predictInfos){
+                output.append(info.TEMP_IMAGE.get(i));
+                output.append(info.WEATHER_IMAGE.get(i));
+                output.append("|");
+            }
+            output.append("\n");
+        }
+        for(PredictInfoParser info: predictInfos){
+            // 9 is temp image layout space: 12 - "(_)".length()
+            String sizeFormat = "%" + (13 + 9 -info.DESC.length()) + "s";// only support chinese character
+            output.append(info.TEMP_IMAGE.get(5));
+            output.append(String.format(sizeFormat, info.DESC));
+            output.append("|");
+        }
+        output.append("\n");
+
         return output.toString();
     }
 

@@ -2,6 +2,7 @@ package snippets;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class WeatherImage {
 //@formatter:off
@@ -66,11 +67,33 @@ public class WeatherImage {
 "\033[38;5;255;1m   * * * *   \033[0m",
 "\033[38;5;255;1m  * * * *    \033[0m");
 
+	private final static List<String> TEMP = Arrays.asList(
+" _          ",
+"| |" + ANSIColor.RED + "___H%3s°C" + ANSIColor.RESET,
+"|" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
+"|" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|" + ANSIColor.CYAN + "___L%3s°C" + ANSIColor.RESET,
+"|" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
+"(" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")         ");
+
 //@formatter:on
 
 	public static List<String> getWeatherImage(List<String> weatherDescs) {
 		// Because only index 0 of list contains the information we need.
 		return getWeatherImage(weatherDescs.get(0));
+	}
+
+	public static List<String> getTempImage(String high, String low, Boolean lastLineOffset) {
+		List<String> temp = getTempImage(high, low);
+		if (!lastLineOffset)
+			temp.set(5, "(" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")");
+		return temp;
+	}
+
+	public static List<String> getTempImage(String high, String low) {
+		List<String> temp = new ArrayList<String>(TEMP);
+		temp.set(1, String.format(temp.get(1), high));
+		temp.set(3, String.format(temp.get(3), low));
+		return temp;
 	}
 
 	public static List<String> getWeatherImage(String weatherDesc) {
