@@ -128,12 +128,13 @@ public class WeatherHandler extends Handler{
 
     // 指定地區的預測天氣
     public void producePredictWeather(JSONObject json)throws Exception{
+        System.out.println(json);
         ArrayList<Map<Object, Object>> List= new ArrayList<Map<Object, Object>>();
         try{
             JSONArray allLocation = json.getJSONObject("records").getJSONArray("location");
             JSONObject jsonWeather= allLocation.getJSONObject(0);
             JSONArray Elements = jsonWeather.getJSONArray("weatherElement");
-            for(int k=0; k<3; k++){
+            for(int k=0; k<1; k++){
                 Map<Object, Object> map= new HashMap<Object, Object>();
                 JSONObject sameTimes = Elements.getJSONObject(0).getJSONArray("time").getJSONObject(k);
                 map.put("startTime",sameTimes.get("startTime"));
@@ -164,6 +165,7 @@ public class WeatherHandler extends Handler{
                 List.add(map);
             }
         }catch(Exception e){
+            System.out.println(e);
             throw new JSONException("\nThe JSON file from predict weather's url has error");
         }
         
