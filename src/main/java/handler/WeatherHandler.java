@@ -1,6 +1,6 @@
+//@formatter:off
 package handler;
 
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
@@ -89,7 +89,7 @@ public class WeatherHandler extends Handler{
     // 指定地區的預測天氣
     public void producePredictWeather(JSONObject json)throws Exception{
         // System.out.println(json);
-        ArrayList<Map<String, ArrayList<String>>> List= new ArrayList<Map<String, ArrayList<String>>>();
+        ArrayList<Map<String, ArrayList<String>>> list = new ArrayList<Map<String, ArrayList<String>>>();
         try{
             JSONArray allLocation = json.getJSONObject("records").getJSONArray("location");
             JSONObject jsonWeather= allLocation.getJSONObject(0);
@@ -126,13 +126,13 @@ public class WeatherHandler extends Handler{
                     }
                     map.put("info_"+i, plist);
                 }
-                List.add(map);
+                list.add(map);
             }
         }catch(Exception e){
-            System.out.println(e);
-            throw new JSONException("\nThe JSON file from predict weather's url has error");
+            // throw new JSONException("\nThe JSON file from predict weather's url has error");
+        } finally {
+            predict_weather = list;
         }
-        predict_weather = List;
     }
 
     // 建立資料
@@ -156,9 +156,7 @@ public class WeatherHandler extends Handler{
     public String toString(){
         try{
             weatherInit();
-            ArrayList<Map<String, ArrayList<String>>> list= new ArrayList<Map<String, ArrayList<String>>>(predict_weather);
-            list.add(0, current_weather);
-            return list.toString();
+            return ""; // TODO: add render functoin
         }catch(Exception e){
             return "weather handler fail:\n"+e;
         }
