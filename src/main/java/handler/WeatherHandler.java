@@ -21,11 +21,8 @@ import java.net.UnknownHostException;
 
 
 public class WeatherHandler extends Handler{
-    private static final String WEATHER_CENTER_FILE_PATH = "/weather_center_data.csv";
-    private static final String LOCATION_NAME_URL_PATH = "/location_name_url.csv";
-    private static String predictUrl;
-    private static String currentUrl;
-    private static String key;
+    private String predictUrl;
+    private String currentUrl;
     private ArrayList<Map<String, ArrayList<String>>> predict_weather;
     private Map<String, ArrayList<String>> current_weather;
     private final String location;
@@ -40,8 +37,6 @@ public class WeatherHandler extends Handler{
         public final String END;
         public final List<String> WEATHER_IMAGE;
         public final List<String> TEMP_IMAGE;
-
-        public final String[] infosArray;
 
         public PredictInfoParser(Map<String, ArrayList<String>> weatherInfo){
             DESC = weatherInfo.get("info_0").get(0);
@@ -59,7 +54,6 @@ public class WeatherHandler extends Handler{
                                 .replace("-", "/");
             WEATHER_IMAGE = WeatherImage.getWeatherImage(DESC);
             TEMP_IMAGE = WeatherImage.getTempImage(HIGH_TEMP, LOW_TEMP, false);
-            infosArray = new String[] {DESC, CHANCE_OF_RAIN, LOW_TEMP, FEEL, HIGH_TEMP, BEGIN, END};
         }
     }
 
@@ -89,6 +83,7 @@ public class WeatherHandler extends Handler{
             Scanner scanner = new Scanner(new URL(url).openStream(), StandardCharsets.UTF_8.toString());
             scanner.useDelimiter("\\A");
             allData =scanner.next();
+            scanner.close();
             return allData;
         }
         catch(IOException e){
