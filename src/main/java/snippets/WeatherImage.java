@@ -67,7 +67,7 @@ public class WeatherImage {
 "\033[38;5;255;1m  * * * *    \033[0m");
 
 //@formatter:on
-	public List<String> getWeatherImage(String weatherDesc) {
+	public static List<String> getWeatherImage(String weatherDesc) {
 		if (weatherDesc.contains("陰") || weatherDesc.contains("雲")) {
 			if (weatherDesc.contains("晴")) {
 				if (weatherDesc.contains("雷"))
@@ -86,7 +86,7 @@ public class WeatherImage {
 				return RAIN_AND_THUNDER;
 			else
 				return RAIN;
-		} else if (weatherDesc.contains("雪")) {
+		} else if (weatherDesc.contains("雪") || weatherDesc.contains("冰")) {
 			return SNOW;
 		} else if (weatherDesc.contains("霧")) {
 			return FOG;
@@ -94,7 +94,7 @@ public class WeatherImage {
 		return UNKNOWN;
 	}
 
-	public Boolean isUnknown(List<String> ansiImage) {
+	public static Boolean isUnknown(List<String> ansiImage) {
 		return ansiImage.equals(UNKNOWN);
 	}
 
