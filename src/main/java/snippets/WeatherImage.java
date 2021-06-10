@@ -94,4 +94,8 @@ public class WeatherImage {
 		return UNKNOWN;
 	}
 
+	public Boolean isUnknown(List<String> ansiImage) {
+		return ansiImage.equals(UNKNOWN);
+	}
+
 }
