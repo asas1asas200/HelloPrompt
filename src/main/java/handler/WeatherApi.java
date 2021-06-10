@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
-public class WeatherApi {
+public class WeatherAPI {
     private static final String AUTHORITY_FILE_PATH = "/authority_key.csv";
 
     // url : apiUrl+ 授權碼+ 想搜尋的類別+ 時間+ 地點
@@ -31,7 +31,7 @@ public class WeatherApi {
     private final String location;
     private final String locationUrl;
 
-    public WeatherApi(String location) throws Exception {
+    public WeatherAPI(String location) throws Exception {
         this.location = location;
         now = getTime();
         locationUrl = "&locationName=" + location;

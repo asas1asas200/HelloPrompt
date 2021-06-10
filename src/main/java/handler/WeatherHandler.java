@@ -137,9 +137,9 @@ public class WeatherHandler extends Handler{
 
     // 建立資料
     public void weatherInit()throws Exception{
-            WeatherApi weatherApi =new WeatherApi(location);
-            this.predictUrl= weatherApi.getPredictDataUrl();
-            this.currentUrl= weatherApi.getCurrentDataUrl();
+            WeatherAPI weatherAPI =new WeatherAPI(location);
+            this.predictUrl= weatherAPI.getPredictDataUrl();
+            this.currentUrl= weatherAPI.getCurrentDataUrl();
 
             String datafromHttp = getHttp(this.predictUrl);
             JSONObject predict_json = new JSONObject(datafromHttp);
