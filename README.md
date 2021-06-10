@@ -4,15 +4,17 @@
 
 Prompt some informations on your screen when opened terminal.
 
-# Prerequirements
-+ git 2.31.1
-+ gradle 7.0.2
-+ opanjdk 15.0.2
+## Prerequirements
 
-# Build
-```
-$ git clone https://github.com/asas1asas200/HelloPrompt.git
-$ cd HelloPrompt
-$ ./gradlew build
-$ ./gradlew run # or run in quiet mode $ gradle run -q 
+-   git 2.31.1
+-   gradle 7.0.2
+-   opanjdk 15.0.2
+
+## Build
+
+```sh
+git clone https://github.com/asas1asas200/HelloPrompt.git
+cd HelloPrompt
+./gradlew build
+./gradlew run # or run in quiet mode $ ./gradlew run -q 
 ```

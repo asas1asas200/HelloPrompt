@@ -6,7 +6,12 @@ import java.util.Map;
 import java.util.HashMap;
 
 //@formatter:off
-public class CalendarImage{
+/**
+ * This class generate the ascii image about calendar.
+ *
+ * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ */
+public class CalendarImage {
 	private final static List<String> JAN = Arrays.asList(
 "   __     ______     __   __       " ,
 "  /\\ \\   /\\  __ \\   /\\ \"-.\\ \\      " ,
@@ -491,13 +496,29 @@ public class CalendarImage{
 	);
 //@formatter:on
 
-	public static List<String> getDay(int day) {
-		return days.get(day - 1);
-	}
+	private final static List<List<String>> daysOfWeek = Arrays.asList(MON, TUE, WED, THU, FRI, SAT, SUN);
 
 	private final static List<List<String>> months = Arrays.asList(JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT,
 			NOV, DEC);
 
+	/**
+	 * Get day image by passing an int.
+	 * 
+	 * @param day a number from 1 to 31.
+	 *
+	 * @return {@code List<String>} contain day image of ascii string list.
+	 */
+	public static List<String> getDay(int day) {
+		return days.get(day - 1);
+	}
+
+	/**
+	 * Get month image by passing an int.
+	 * 
+	 * @param month a number from 1 to 12.
+	 *
+	 * @return {@code List<String>} contain month image of acsii string list.
+	 */
 	public static List<String> getMonth(int month) {
 		return months.get(month - 1);
 	}
@@ -514,12 +535,24 @@ public class CalendarImage{
 		}
 	};
 
-	private final static List<List<String>> daysOfWeek = Arrays.asList(MON, TUE, WED, THU, FRI, SAT, SUN);
-
+	/**
+	 * Get day of week image by passing an int.
+	 * 
+	 * @param dayOfWeek a number from 1 to 7.
+	 * 
+	 * @return {@code List<String>} contain day of week image of ascii string list.
+	 */
 	public static List<String> getDayOfWeek(int dayOfWeek) {
 		return daysOfWeek.get(dayOfWeek - 1);
 	}
 
+	/**
+	 * Get day of week image by passing a string.
+	 * 
+	 * @param dayOfWeek a string such like "MONDAY", "TUESDAY".
+	 * 
+	 * @return {@code List<String>} contain day of week image of ascii string list.
+	 */
 	public static List<String> getDayOfWeek(String dayOfWeek) {
 		return daysOfWeek.get(dayOfWeekMapping.get(dayOfWeek));
 	}
