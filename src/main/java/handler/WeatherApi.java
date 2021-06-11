@@ -41,7 +41,7 @@ public class WeatherAPI {
         produceDateFromFile(AUTHORITY_FILE_PATH);
     }
 
-    public WeatherApi() throws Exception {
+    public WeatherAPI() throws Exception {
         this("基隆市"); // Default location
     }
 

@@ -89,14 +89,15 @@ public class WeatherHandler extends Handler{
     // 指定地區的預測天氣
     public void producePredictWeather(JSONObject json)throws Exception{
         // System.out.println(json);
-        ArrayList<Map<String, ArrayList<String>>> List= new ArrayList<Map<String, ArrayList<String>>>();
+        ArrayList<Map<String, ArrayList<String>>> weatherList= new ArrayList<Map<String, ArrayList<String>>>();
         try{
             JSONArray allLocation = json.getJSONObject("records").getJSONArray("location");
-            JSONObject jsonWeather= allLocation.getJSONObject(0);
-            JSONArray elements = jsonWeather.getJSONArray("weatherElement");
-            for(int k=0; k<3; k++){
+            // JSONObject jsonWeather= allLocation.getJSONObject(0);
+            JSONArray elements = allLocation.getJSONObject(0).getJSONArray("weatherElement");
+            JSONArray timeArray = elements.getJSONObject(0).getJSONArray("time");
+            for(int k=0; k<timeArray.length(); k++){
                 Map<String, ArrayList<String>> map= new HashMap<String, ArrayList<String>>();
-                JSONObject sameTimes = elements.getJSONObject(0).getJSONArray("time").getJSONObject(k);
+                JSONObject sameTimes = timeArray.getJSONObject(k);
                 ArrayList<String> sttlist = new ArrayList<String>();
                 ArrayList<String> endtlist = new ArrayList<String>();
                 sttlist.add((String)sameTimes.get("startTime"));
@@ -126,13 +127,13 @@ public class WeatherHandler extends Handler{
                     }
                     map.put("info_"+i, plist);
                 }
-                List.add(map);
+                weatherList.add(map);
             }
         }catch(Exception e){
             System.out.println(e);
             throw new JSONException("\nThe JSON file from predict weather's url has error");
         }
-        predict_weather = List;
+        predict_weather = weatherList;
     }
 
     // 建立資料
