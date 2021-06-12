@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import handler.*;
 
@@ -46,10 +48,15 @@ public class CLI {
 	/**
 	 * This contructor defined the handlers that will run.
 	 */
-	public CLI() {
+	public CLI(String[] args) {
+		Map<String, String> argsMapping = parseArgs(args);
 		handlers = new ArrayList<HandlerThread>();
 		handlers.add(new HandlerThread(new CalendarHandler()));
-		handlers.add(new HandlerThread(new WeatherHandler()));
+		String location = argsMapping.getOrDefault("-l", "");
+		if (location.isEmpty())
+			handlers.add(new HandlerThread(new WeatherHandler()));
+		else
+			handlers.add(new HandlerThread(new WeatherHandler(location)));
 	}
 
 	/**
@@ -69,5 +76,24 @@ public class CLI {
 		for (HandlerThread handler : handlers) {
 			System.out.println(handler.getResult());
 		}
+	}
+
+	private Map<String, String> parseArgs(String[] args) {
+		Map<String, String> argsMapping = new HashMap<String, String>();
+		Boolean isKey = true;
+		String key = "";
+		for (String arg : args) {
+			if (isKey) {
+				if (arg.contains("-")) {
+					key = arg.substring(0, 2);
+				} else {
+					return argsMapping;
+				}
+			} else {
+				argsMapping.put(key, arg);
+			}
+			isKey = !isKey;
+		}
+		return argsMapping;
 	}
 }
