@@ -39,11 +39,11 @@ public class WeatherHandler extends Handler{
         public final List<String> TEMP_IMAGE;
 
         public PredictInfoParser(Map<String, ArrayList<String>> weatherInfo){
-            DESC = weatherInfo.get("info_0").get(0);
-            CHANCE_OF_RAIN = weatherInfo.get("info_1").get(0);
-            LOW_TEMP = weatherInfo.get("info_2").get(0);
-            FEEL = weatherInfo.get("info_3").get(0);
-            HIGH_TEMP = weatherInfo.get("info_4").get(0);
+            DESC = weatherInfo.get("天氣現象").get(0);
+            CHANCE_OF_RAIN = weatherInfo.get("降雨機率").get(0);
+            LOW_TEMP = weatherInfo.get("最低溫度").get(0);
+            FEEL = weatherInfo.get("舒適度").get(0);
+            HIGH_TEMP = weatherInfo.get("最高溫度").get(0);
             BEGIN = weatherInfo.get("startTime").get(0)
                                 .substring(5, 13)
                                 .replace(" ", "@")
@@ -168,19 +168,19 @@ public class WeatherHandler extends Handler{
         }catch(JSONException e){
             // throw new JSONException("\nThe JSON file from predict weather's url has error");
         } finally {
-            predict_weather = list;
+            predict_weather = weatherList;
         }
     }
 
     // 建立資料
     public void weatherInit()throws Exception{
-            WeatherApi weatherAPI =new WeatherAPI(location);
+            WeatherAPI weatherAPI =new WeatherAPI(location);
 
-            String datafromHttp = getHttp(weatherApi.getPredictDataUrl());
+            String datafromHttp = getHttp(weatherAPI.getPredictDataUrl());
             JSONObject predict_json = new JSONObject(datafromHttp);
             producePredictWeather(predict_json);
 
-            String dataCurrentHttp = getHttp(weatherApi.getCurrentDataUrl());
+            String dataCurrentHttp = getHttp(weatherAPI.getCurrentDataUrl());
             JSONObject Jsonfile_C = new JSONObject(dataCurrentHttp);
             produceCurrentWeather(Jsonfile_C);
     }
