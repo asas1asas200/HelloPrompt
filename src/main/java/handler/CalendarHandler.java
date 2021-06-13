@@ -35,7 +35,7 @@ import snippets.CalendarImage;
  * 
  * @see Handler
  * 
- * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
  */
 public class CalendarHandler extends Handler {
 	private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";

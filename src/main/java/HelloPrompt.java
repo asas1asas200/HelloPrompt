@@ -5,7 +5,7 @@
  * command line interface now.
  * </p>
  * 
- * @author <a href="mailto:asas1asas200@gmaill.com">Zeng</a>
+ * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
  */
 public class HelloPrompt {
 	/**
@@ -14,7 +14,7 @@ public class HelloPrompt {
 	 * @param args it has no actual effect now.
 	 */
 	public static void main(String[] args) {
-		CLI cli = new CLI();
+		CLI cli = new CLI(args);
 		cli.run();
 	}
 }
