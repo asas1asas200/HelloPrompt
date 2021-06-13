@@ -6,6 +6,10 @@ import java.util.Formatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.text.*;
+import java.util.List;
+import java.util.Arrays;
+import java.lang.StringBuilder;
+
 
 import java.util.Scanner;
 import org.json.JSONException;
@@ -25,8 +29,7 @@ public class WeatherAPI {
     private final String predict = "/F-C0032-001"; // 後36hrs預報
 
     private static String key;
-    private static String condition = "&parameterName%EF%BC%8C=CITY";
-
+    private static List<String> weatherElements= Arrays.asList("WDIR","WDSD", "D_TX", "D_TXT", "D_TN", "D_TNT", "TEMP", "HUMD");                 
     private final String now;
     private final String location;
     private final String locationUrl;
@@ -46,7 +49,14 @@ public class WeatherAPI {
     }
 
     public String getCurrentDataUrl() {
-        return apiUrl + current + "?Authorization=" + key + condition;
+        StringBuilder elements= new StringBuilder();
+        for(int i=0; i<weatherElements.size(); i++) {
+            if(i==0){
+                elements.append(weatherElements.get(i));
+            }
+            elements.append(","+ weatherElements.get(i));
+        }
+        return apiUrl + current + "?Authorization=" + key + "&elementName=" + elements + "&parameterName%EF%BC%8C=CITY";
     }
 
     public String getPredictDataUrl() {
