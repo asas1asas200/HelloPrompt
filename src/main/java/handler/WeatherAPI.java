@@ -6,6 +6,9 @@ import java.util.Formatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.text.*;
+import java.util.List;
+import java.util.Arrays;
+
 
 import java.util.Scanner;
 import org.json.JSONException;
@@ -16,7 +19,7 @@ import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
-public class WeatherApi {
+public class WeatherAPI {
     private static final String AUTHORITY_FILE_PATH = "/authority_key.csv";
 
     // url : apiUrl+ 授權碼+ 想搜尋的類別+ 時間+ 地點
@@ -25,13 +28,12 @@ public class WeatherApi {
     private final String predict = "/F-C0032-001"; // 後36hrs預報
 
     private static String key;
-    private static String condition = "&parameterName%EF%BC%8C=CITY";
-
+    private static List<String> weatherElements= Arrays.asList("WDIR","WDSD", "D_TX", "D_TXT", "D_TN", "D_TNT", "TEMP", "HUMD");                 
     private final String now;
     private final String location;
     private final String locationUrl;
 
-    public WeatherApi(String location) throws Exception {
+    public WeatherAPI(String location) throws Exception {
         this.location = location;
         now = getTime();
         locationUrl = "&locationName=" + location;
@@ -41,12 +43,19 @@ public class WeatherApi {
         produceDateFromFile(AUTHORITY_FILE_PATH);
     }
 
-    public WeatherApi() throws Exception {
+    public WeatherAPI() throws Exception {
         this("基隆市"); // Default location
     }
 
     public String getCurrentDataUrl() {
-        return apiUrl + current + "?Authorization=" + key + condition;
+        StringBuilder elements= new StringBuilder();
+        for(int i=0; i<weatherElements.size(); i++) {
+            if(i==0){
+                elements.append(weatherElements.get(i));
+            }
+            elements.append(","+ weatherElements.get(i));
+        }
+        return apiUrl + current + "?Authorization=" + key + "&elementName=" + elements + "&parameterName%EF%BC%8C=CITY";
     }
 
     public String getPredictDataUrl() {
