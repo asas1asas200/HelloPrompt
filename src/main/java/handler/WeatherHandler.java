@@ -228,7 +228,7 @@ public class WeatherHandler extends Handler{
             // 11 is rainy + "FEEL: " layout length
             String sizeFormat = "%-" + (26 - 11 - info.FEEL.length()) + "s";// only support chinese character
             output.append(String.format(sizeFormat, info.FEEL));
-            output.append("🌧️ :" + ANSIColor.BLUE + info.CHANCE_OF_RAIN + ANSIColor.RESET);
+            output.append("🌧️ :" + ANSIColor.BLUE+ String.format("%2s", info.CHANCE_OF_RAIN) + ANSIColor.RESET);
             output.append("|");
         }
         output.append("\n");
