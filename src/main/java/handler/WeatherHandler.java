@@ -47,10 +47,6 @@ public class WeatherHandler extends Handler {
             produceDateFromFile(AUTHORITY_FILE_PATH);
         }
 
-        public WeatherAPI() throws Exception {
-            this("基隆市"); // Default location
-        }
-
         public String getCurrentDataUrl() {
             StringBuilder elements = new StringBuilder();
             for (int i = 0; i < weatherElements.size(); i++) {
