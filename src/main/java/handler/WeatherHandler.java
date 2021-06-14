@@ -107,10 +107,6 @@ public class WeatherHandler extends Handler {
 
     }
 
-    private ArrayList<Map<String, ArrayList<String>>> predict_weather;
-    private Map<String, ArrayList<String>> current_weather;
-    private final String location;
-
     private class PredictInfoParser {
         public final String DESC;
         public final String CHANCE_OF_RAIN;
@@ -134,6 +130,10 @@ public class WeatherHandler extends Handler {
             TEMP_IMAGE = WeatherImage.getTempImage(HIGH_TEMP, LOW_TEMP, false);
         }
     }
+
+    private ArrayList<Map<String, ArrayList<String>>> predict_weather;
+    private Map<String, ArrayList<String>> current_weather;
+    private final String location;
 
     public WeatherHandler() {
         ifOutput = true;
