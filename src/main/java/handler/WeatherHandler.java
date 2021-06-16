@@ -93,7 +93,7 @@ public class WeatherHandler extends Handler {
         }
         /**
          * Open and read a .csv file.
-         * @return type:String[] (divided by ',') 
+         * @return {@code String[]} csv data.
          */
         public String[] openCsvFile(String path) throws IOException {
             String data = new String();
@@ -167,17 +167,25 @@ public class WeatherHandler extends Handler {
     private Map<String, String> immediate_weather;
     private final String location;
 
+    /**Initialize WeatherHandler, set ifOutput as true and set location with default("基隆市").
+     */
     public WeatherHandler() {
         ifOutput = true;
         this.location = "基隆市"; // 預設
     }
-
+    /**Initialize WeatherHandler, set ifOutput as true and set location with input argument.
+     * @param location living city name(chinese)
+     */
     public WeatherHandler(String location) {
         ifOutput = true;
         this.location = location;
     }
-
-    public String getHttp(String url) throws Exception {
+    /**Get data in string from given url.
+     * @param url weather API.
+     * @return {@code String} resource from url. 
+     * @throws UnknownHostException If the given url has error.
+     */
+    public String getHttp(String url) throws UnknownHostException {
         try {
             String allData;
             Scanner scanner = new Scanner(new URL(url).openStream(), StandardCharsets.UTF_8.toString());
@@ -187,11 +195,19 @@ public class WeatherHandler extends Handler {
             return allData;
         } catch (UnknownHostException e) {
             throw new UnknownHostException("wrong url resource(check csv file)");
+        }catch(Exception e){
+            System.err.println("System error");
         }
+        return "";
     }
 
-    
-    public Map<String, String> producePerspectiveWeather(JSONObject json) throws Exception {
+    /**Produce data from given JSONObject.
+     * <p>搜集並整理「最近」天氣資料.
+     * @param json a json file containing weather information.
+     * @return {@code Map<String, String>} contain many weather element.
+     * @throws JSONException If input JSONObject can be achieve the method's require.
+     */
+    public Map<String, String> producePerspectiveWeather(JSONObject json) throws JSONException {
         List<String> elementsName_EN = Arrays.asList("Weather","TEMP", "HUMD", "WDIR", "WDSD", "D_TX", "D_TXT"
                                                     , "D_TN", "D_TNT","PRES","24R","H_FX","H_XD","H_UVI","D_TS"
                                                 );
@@ -235,8 +251,12 @@ public class WeatherHandler extends Handler {
         return weather;
     }
 
-    // 建立並整理預測天氣資料
-    public void producePredictWeather(JSONObject json) throws Exception {
+    /**Produce data from given JSONObject.
+     * <p>搜集並整理「預報」天氣資料<br>
+     * 自動存到參數predict_weather.
+     * @param json a json file containing weather information.
+     */
+    public void producePredictWeather(JSONObject json){
         List<String> conditons = Arrays.asList("天氣現象", "降雨機率", "最低溫度", "舒適度", "最高溫度");
         ArrayList<Map<String, ArrayList<String>>> weatherList = new ArrayList<Map<String, ArrayList<String>>>();
         try {
@@ -292,7 +312,7 @@ public class WeatherHandler extends Handler {
      * <p>build predict_weather, current_weather and immediate_weather<br>
      * Use class weatherAPI get each url.<br>
      * Catch nessesary data form url.
-     *  @return 沒有返回值
+     * @throws Exception If any exception occurs.
     */
     public void weatherInit() throws Exception {
         WeatherAPI weatherAPI = new WeatherAPI(location);
@@ -361,7 +381,11 @@ public class WeatherHandler extends Handler {
 
         return output.toString() + '\n' + current_weather.toString() + '\n' + immediate_weather.toString();
     }
-
+    /**
+     * Initiallize weather data and show it out as image.
+     * <p>Use the method weatherInit() and then use method render() tranfer data into image.
+     * @return the image of the weather. 
+     */
     @Override
     public String toString() {
         try {
