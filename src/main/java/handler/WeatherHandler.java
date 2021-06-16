@@ -23,7 +23,19 @@ import org.json.JSONException;
 import snippets.ANSIColor;
 import snippets.WeatherImage;
 
+
+/**
+ * This handler can collect weather information if weatherInfo was set.<br>
+ * 
+ * @see Handler
+ * 
+ */
 public class WeatherHandler extends Handler {
+
+    /**
+     * This class can produce the url of the weather information from network.
+     * <p>Can get weather in the next 36 hours.</p>
+     */
     private static class WeatherAPI {
         private static final String AUTHORITY_FILE_PATH = "/authority_key.csv";
 
@@ -47,7 +59,6 @@ public class WeatherHandler extends Handler {
             }
             produceDateFromFile(AUTHORITY_FILE_PATH);
         }
-
         public String getCurrentDataUrl() {
             // 若需要指抓取特定 element
             // StringBuilder elements = new StringBuilder();
@@ -80,7 +91,10 @@ public class WeatherHandler extends Handler {
         public String getPredictDataUrl() {
             return apiUrl + predict + "?Authorization=" + key + "&timeFrom=" + now + locationUrl;
         }
-
+        /**
+         * Open and read a .csv file.
+         * @return type:String[] (divided by ',') 
+         */
         public String[] openCsvFile(String path) throws IOException {
             String data = new String();
             try {
@@ -99,7 +113,6 @@ public class WeatherHandler extends Handler {
                 throw new IOException("files in " + path + " not exist");
             }
         }
-
         public void produceDateFromFile(String fileName) throws Exception {
 
             String[] str = openCsvFile(fileName);
@@ -176,6 +189,8 @@ public class WeatherHandler extends Handler {
             throw new UnknownHostException("wrong url resource(check csv file)");
         }
     }
+
+    
     public Map<String, String> producePerspectiveWeather(JSONObject json) throws Exception {
         List<String> elementsName_EN = Arrays.asList("Weather","TEMP", "HUMD", "WDIR", "WDSD", "D_TX", "D_TXT"
                                                     , "D_TN", "D_TNT","PRES","24R","H_FX","H_XD","H_UVI","D_TS"
@@ -220,7 +235,7 @@ public class WeatherHandler extends Handler {
         return weather;
     }
 
-    // 指定地區的預測天氣
+    // 建立並整理預測天氣資料
     public void producePredictWeather(JSONObject json) throws Exception {
         List<String> conditons = Arrays.asList("天氣現象", "降雨機率", "最低溫度", "舒適度", "最高溫度");
         ArrayList<Map<String, ArrayList<String>>> weatherList = new ArrayList<Map<String, ArrayList<String>>>();
@@ -272,7 +287,13 @@ public class WeatherHandler extends Handler {
         }
     }
 
-    // 建立資料
+    /**  
+     * Build data.
+     * <p>build predict_weather, current_weather and immediate_weather<br>
+     * Use class weatherAPI get each url.<br>
+     * Catch nessesary data form url.
+     *  @return 沒有返回值
+    */
     public void weatherInit() throws Exception {
         WeatherAPI weatherAPI = new WeatherAPI(location);
 
