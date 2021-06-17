@@ -57,6 +57,7 @@ public class CLI {
 			handlers.add(new HandlerThread(new WeatherHandler()));
 		else
 			handlers.add(new HandlerThread(new WeatherHandler(location)));
+		handlers.add(new HandlerThread(new GitHandler()));
 	}
 
 	/**
