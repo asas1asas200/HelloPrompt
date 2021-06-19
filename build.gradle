@@ -1,9 +1,19 @@
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 version = 1.0
 
 mainClassName = 'HelloPrompt'
+
+buildscript {
+	repositories {
+		gradlePluginPortal()
+	}
+	dependencies {
+		classpath 'gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0'
+	}
+}
 
 repositories {
 	mavenCentral();

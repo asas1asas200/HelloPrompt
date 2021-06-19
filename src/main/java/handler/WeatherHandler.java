@@ -23,13 +23,26 @@ import org.json.JSONException;
 import snippets.ANSIColor;
 import snippets.WeatherImage;
 
+
+/**
+ * This handler can collect weather information if weatherInfo was set.<br>
+ * 
+ * @see Handler
+ * 
+ */
 public class WeatherHandler extends Handler {
+
+    /**
+     * This class can produce the url of the weather information from network.
+     * <p>Can get weather in the next 36 hours.</p>
+     */
     private static class WeatherAPI {
         private static final String AUTHORITY_FILE_PATH = "/authority_key.csv";
 
         // url : apiUrl+ 授權碼+ 想搜尋的類別+ 時間+ 地點
         private final String apiUrl = "https://opendata.cwb.gov.tw/api/v1/rest/datastore";
-        private final String current = "/O-A0001-001"; // 最近一次觀測資料
+        private final String immediate = "/O-A0003-001"; 
+        private final String current = "/O-A0001-001"; 
         private final String predict = "/F-C0032-001"; // 後36hrs預報
 
         private static String key;
@@ -46,23 +59,42 @@ public class WeatherHandler extends Handler {
             }
             produceDateFromFile(AUTHORITY_FILE_PATH);
         }
-
         public String getCurrentDataUrl() {
-            StringBuilder elements = new StringBuilder();
-            for (int i = 0; i < weatherElements.size(); i++) {
-                if (i == 0) {
-                    elements.append(weatherElements.get(i));
-                }
-                elements.append("," + weatherElements.get(i));
-            }
-            return apiUrl + current + "?Authorization=" + key + "&elementName=" + elements
+            // 若需要指抓取特定 element
+            // StringBuilder elements = new StringBuilder();
+            // for (int i = 0; i < weatherElements.size(); i++) {
+            //     if (i == 0) {
+            //         elements.append(weatherElements.get(i));
+            //     }
+            //     elements.append("," + weatherElements.get(i));
+            // }
+            // return apiUrl + current + "?Authorization=" + key + "&elementName=" + elements
+            //         + "&parameterName%EF%BC%8C=CITY";
+            return apiUrl + current + "?Authorization=" + key 
+                    + "&parameterName%EF%BC%8C=CITY";
+        }
+        public String getImmediateDataUrl() {
+            // 若需要指抓取特定 element
+            // StringBuilder elements = new StringBuilder();
+            // for (int i = 0; i < weatherElements.size(); i++) {
+            //     if (i == 0) {
+            //         elements.append(weatherElements.get(i));
+            //     }
+            //     elements.append("," + weatherElements.get(i));
+            // }
+            // return apiUrl + immediate + "?Authorization=" + key + "&elementName=" + elements
+            //         + "&parameterName%EF%BC%8C=CITY";
+            return apiUrl + immediate + "?Authorization=" + key
                     + "&parameterName%EF%BC%8C=CITY";
         }
 
         public String getPredictDataUrl() {
             return apiUrl + predict + "?Authorization=" + key + "&timeFrom=" + now + locationUrl;
         }
-
+        /**
+         * Open and read a .csv file.
+         * @return {@code String[]} csv data.
+         */
         public String[] openCsvFile(String path) throws IOException {
             String data = new String();
             try {
@@ -81,7 +113,6 @@ public class WeatherHandler extends Handler {
                 throw new IOException("files in " + path + " not exist");
             }
         }
-
         public void produceDateFromFile(String fileName) throws Exception {
 
             String[] str = openCsvFile(fileName);
@@ -132,20 +163,29 @@ public class WeatherHandler extends Handler {
     }
 
     private ArrayList<Map<String, ArrayList<String>>> predict_weather;
-    private Map<String, ArrayList<String>> current_weather;
+    private Map<String, String> current_weather;
+    private Map<String, String> immediate_weather;
     private final String location;
 
+    /**Initialize WeatherHandler, set ifOutput as true and set location with default("基隆市").
+     */
     public WeatherHandler() {
         ifOutput = true;
         this.location = "基隆市"; // 預設
     }
-
+    /**Initialize WeatherHandler, set ifOutput as true and set location with input argument.
+     * @param location living city name(chinese)
+     */
     public WeatherHandler(String location) {
         ifOutput = true;
         this.location = location;
     }
-
-    public String getHttp(String url) throws Exception {
+    /**Get data in string from given url.
+     * @param url weather API.
+     * @return {@code String} resource from url. 
+     * @throws UnknownHostException If the given url has error.
+     */
+    public String getHttp(String url) throws UnknownHostException {
         try {
             String allData;
             Scanner scanner = new Scanner(new URL(url).openStream(), StandardCharsets.UTF_8.toString());
@@ -155,51 +195,68 @@ public class WeatherHandler extends Handler {
             return allData;
         } catch (UnknownHostException e) {
             throw new UnknownHostException("wrong url resource(check csv file)");
+        }catch(Exception e){
+            System.err.println("System error");
         }
+        return "";
     }
 
-    // TEMP 溫度 攝氏單位
-    // HUMD 空氣濕度 相對濕度(0< HUMD<1)
-    // WDIR 風向，單位 度，一般風向 0 表示無風
-    // WDSD 風速，單位 公尺/秒
-    // D_TX 本日最高溫，單位 攝氏
-    // D_TXT 本日最高溫發生時間，hhmm (小時分鐘)
-    // D_TN 本日最低溫，單位 攝氏
-    // D_TNT 本日最低溫發生時間，hhmm (小時分鐘)
-    public void produceCurrentWeather(JSONObject json) throws Exception {
-        List<String> elementsName_EN = Arrays.asList("TEMP", "HUMD", "WDIR", "WDSD", "D_TX", "D_TXT", "D_TN", "D_TNT");
-        List<String> elementsName_CH = Arrays.asList("現在溫度", "濕度", "風向", "風速", "本日最高溫", "本日最高溫發生時間", "本日最低溫",
-                "本日最低溫發生時間");
-        Map<String, ArrayList<String>> weather = new HashMap<String, ArrayList<String>>();
+    /**Produce data from given JSONObject.
+     * <p>搜集並整理「最近」天氣資料.
+     * @param json a json file containing weather information.
+     * @return {@code Map<String, String>} contain many weather element.
+     * @throws JSONException If input JSONObject can be achieve the method's require.
+     */
+    public Map<String, String> producePerspectiveWeather(JSONObject json) throws JSONException {
+        List<String> elementsName_EN = Arrays.asList("Weather","TEMP", "HUMD", "WDIR", "WDSD", "D_TX", "D_TXT"
+                                                    , "D_TN", "D_TNT","PRES","24R","H_FX","H_XD","H_UVI","D_TS"
+                                                );
+        List<String> elementsName_CH = Arrays.asList("天氣狀態","現在溫度", "濕度", "風向", "風速", "本日最高溫", "本日最高溫發生時間"
+                                                , "本日最低溫","本日最低溫發生時間","氣壓","日累積雨量","小時最大陣風風速","小時最大陣風風向"
+                                                ,"小時紫外線指數","本日總日照時數");
+        Map<String, String> weather = new HashMap<String, String>();
         try {
             JSONArray allLocation = json.getJSONObject("records").getJSONArray("location");
             for (int i = 0; i < allLocation.length(); i++) {
                 JSONObject J = allLocation.getJSONObject(i);
+                String obsTime= J.getJSONObject("time").get("obsTime").toString();
                 String city = J.getJSONArray("parameter").getJSONObject(0).get("parameterValue").toString();
                 if (city.equals(location)) {
+                    weather.put("觀測時間", obsTime);
                     JSONArray weatherElement = J.getJSONArray("weatherElement");
                     for (int en = 0; en < weatherElement.length(); en++) {
                         ArrayList<String> elementList = new ArrayList<String>();
                         String elementN = weatherElement.getJSONObject(en).get("elementName").toString();
                         String elementV = weatherElement.getJSONObject(en).get("elementValue").toString();
-                        elementList.add(elementV);
-                        for (int k = 0; k < elementsName_EN.size(); k++) {
+                        if(elementV.equals("-99"))
+                            elementV= "無資料";
+                        int k;
+                        for (k = 0; k < elementsName_EN.size(); k++) {
                             if (elementN.equals(elementsName_EN.get(k))) {
-                                weather.put(elementsName_CH.get(k), elementList);
+                                if(weather.get(elementsName_CH.get(k))== null || weather.get(elementsName_CH.get(k)).equals("無資料"))
+                                    weather.put(elementsName_CH.get(k), elementV);
+                                break;
                             }
                         }
-
+                        if(k== elementsName_EN.size()){
+                            if(weather.get(elementN)== null || weather.get(elementN).equals("無資料"))
+                                weather.put(elementN, elementV);
+                        }
                     }
                 }
             }
         } catch (Exception e) {
-            throw new JSONException("\nThe JSON file from current weather's url has error");
+            throw new JSONException("\nThe JSON file from prespect weather's url has error");
         }
-        current_weather = weather;
+        return weather;
     }
 
-    // 指定地區的預測天氣
-    public void producePredictWeather(JSONObject json) throws Exception {
+    /**Produce data from given JSONObject.
+     * <p>搜集並整理「預報」天氣資料<br>
+     * 自動存到參數predict_weather.
+     * @param json a json file containing weather information.
+     */
+    public void producePredictWeather(JSONObject json){
         List<String> conditons = Arrays.asList("天氣現象", "降雨機率", "最低溫度", "舒適度", "最高溫度");
         ArrayList<Map<String, ArrayList<String>>> weatherList = new ArrayList<Map<String, ArrayList<String>>>();
         try {
@@ -250,7 +307,13 @@ public class WeatherHandler extends Handler {
         }
     }
 
-    // 建立資料
+    /**  
+     * Build data.
+     * <p>build predict_weather, current_weather and immediate_weather<br>
+     * Use class weatherAPI get each url.<br>
+     * Catch nessesary data form url.
+     * @throws Exception If any exception occurs.
+    */
     public void weatherInit() throws Exception {
         WeatherAPI weatherAPI = new WeatherAPI(location);
 
@@ -260,7 +323,11 @@ public class WeatherHandler extends Handler {
 
         String dataCurrentHttp = getHttp(weatherAPI.getCurrentDataUrl());
         JSONObject Jsonfile_C = new JSONObject(dataCurrentHttp);
-        produceCurrentWeather(Jsonfile_C);
+        current_weather = producePerspectiveWeather(Jsonfile_C);
+
+        String dataImmediateHttp = getHttp(weatherAPI.getImmediateDataUrl());
+        JSONObject Jsonfile_N = new JSONObject(dataImmediateHttp);
+        immediate_weather= producePerspectiveWeather(Jsonfile_N);
     }
 
     @Override
@@ -312,9 +379,13 @@ public class WeatherHandler extends Handler {
         }
         output.append("\n");
 
-        return output.toString() + '\n' + current_weather.toString();
+        return output.toString() + '\n' + current_weather.toString() + '\n' + immediate_weather.toString();
     }
-
+    /**
+     * Initiallize weather data and show it out as image.
+     * <p>Use the method weatherInit() and then use method render() tranfer data into image.
+     * @return the image of the weather. 
+     */
     @Override
     public String toString() {
         try {
