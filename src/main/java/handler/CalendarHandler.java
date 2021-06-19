@@ -26,8 +26,17 @@ import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 
-import snippets.*;
+import snippets.ANSIColor;
+import snippets.CalendarImage;
 
+/**
+ * This handler can read Google Calendar Events if credentials was set.<br>
+ * Otherwise it can only output today's info.
+ * 
+ * @see Handler
+ * 
+ * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
+ */
 public class CalendarHandler extends Handler {
 	private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -40,12 +49,14 @@ public class CalendarHandler extends Handler {
 	private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
 	private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
+	private LocalDateTime today;
+
 	/**
 	 * Creates an authorized Credential object.
 	 * 
 	 * @param HTTP_TRANSPORT The network HTTP Transport.
-	 * @return An authorized Credential object.
-	 * @throws IOException If the credentials.json file cannot be found.
+	 * 	 * @return An authorized Credential object.
+	 * 	 * @throws IOException If the credentials.json file cannot be found.
 	 */
 	private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
 		// Load client secrets.
@@ -95,8 +106,9 @@ public class CalendarHandler extends Handler {
 		return activities;
 	}
 
-	private LocalDateTime today;
-
+	/**
+	 * Initialize CalendarHandler and set ifOutput as {@code true}
+	 */
 	public CalendarHandler() {
 		ifOutput = true;
 		today = LocalDateTime.now();
@@ -199,6 +211,7 @@ public class CalendarHandler extends Handler {
 				break;
 			default:
 				dayColor = ANSIColor.CYAN.toString();
+				break;
 		}
 
 		return render(monthImage, dayImage, dayOfWeekImage, activities, dayColor);
