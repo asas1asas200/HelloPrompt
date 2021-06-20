@@ -3,7 +3,6 @@ package handler;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
@@ -18,9 +17,9 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class GitHandler extends Handler {
 
-    private String getGitInfo(File dir){
+    private String getGitInfo(File dir) {
         StringBuilder gitInfo = new StringBuilder();
-        try{
+        try {
             Git git = Git.open(dir);
             Repository repository = git.getRepository();
             Status status = new Git(repository).status().call();
@@ -38,12 +37,12 @@ public class GitHandler extends Handler {
             gitInfo.append("\tUncommittedChanges: " + status.getUncommittedChanges() + "\n");
             gitInfo.append("\tHasUncommittedChanges: " + status.hasUncommittedChanges() + "\n");
             return gitInfo.toString();
-        } catch (Exception e){
+        } catch (Exception e) {
             return "No any repository in current directory!";
         }
     }
 
-    private String render(){
+    private String render() {
         StringBuilder output = new StringBuilder();
 
         Path currentRelativePath = Paths.get("");
@@ -63,11 +62,8 @@ public class GitHandler extends Handler {
     }
 
     @Override
-    protected void readConfig(String fileName) {
-    }
-
-    @Override
-    public String toString() {
-        return render();
+    public void run() {
+        ifOutput = true;
+        result = render();
     }
 }

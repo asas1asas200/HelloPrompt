@@ -55,9 +55,9 @@ public class CalendarHandler extends Handler {
 	/**
 	 * Creates an authorized Credential object.
 	 * 
-	 * @param HTTP_TRANSPORT The network HTTP Transport.
-	 * 	 * @return An authorized Credential object.
-	 * 	 * @throws IOException If the credentials.json file cannot be found.
+	 * @param HTTP_TRANSPORT The network HTTP Transport. * @return An authorized
+	 *                       Credential object. * @throws IOException If the
+	 *                       credentials.json file cannot be found.
 	 */
 	private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
 		// Load client secrets.
@@ -117,12 +117,7 @@ public class CalendarHandler extends Handler {
 					+ "/tokens";
 		} catch (URISyntaxException e) {
 		}
-		ifOutput = true;
 		today = LocalDateTime.now();
-	}
-
-	@Override
-	protected void readConfig(String fileName) {
 	}
 
 	//@formatter:off
@@ -187,7 +182,8 @@ public class CalendarHandler extends Handler {
 	}
 
 	@Override
-	public String toString() {
+	public void run() {
+		ifOutput = true;
 		// Height: 5
 		List<String> monthImage = CalendarImage.getMonth(today.getMonthValue());
 
@@ -221,6 +217,6 @@ public class CalendarHandler extends Handler {
 				break;
 		}
 
-		return render(monthImage, dayImage, dayOfWeekImage, activities, dayColor);
+		result = render(monthImage, dayImage, dayOfWeekImage, activities, dayColor);
 	}
 }

@@ -11,53 +11,21 @@ import handler.*;
  * @author <a href="mailto:asas1asas200@gmail.com">Zeng</a>
  */
 public class CLI {
-	private List<HandlerThread> handlers;
-
-	/**
-	 * A HandlerThread denotes a thread for processing handler, it can run handler
-	 * in parallel and store the result prompt.
-	 */
-	public class HandlerThread extends Thread {
-		private Handler handler;
-		private String result;
-
-		/**
-		 * Constructor of HandlerThread, passing a handler to initialize it.
-		 * 
-		 * @param handler The handler that will run in future.
-		 */
-		public HandlerThread(Handler handler) {
-			this.handler = handler;
-		}
-
-		@Override
-		public void run() {
-			result = handler.toString();
-		}
-
-		/**
-		 * Get the result prompt after run.
-		 * 
-		 * @return {@code String} Result prompt string.
-		 */
-		public String getResult() {
-			return result;
-		}
-	}
+	private List<Handler> handlers;
 
 	/**
 	 * This contructor defined the handlers that will run.
 	 */
 	public CLI(String[] args) {
 		Map<String, String> argsMapping = parseArgs(args);
-		handlers = new ArrayList<HandlerThread>();
-		handlers.add(new HandlerThread(new CalendarHandler()));
+		handlers = new ArrayList<Handler>();
+		handlers.add(new CalendarHandler());
 		String location = argsMapping.getOrDefault("-l", "");
 		if (location.isEmpty())
-			handlers.add(new HandlerThread(new WeatherHandler()));
+			handlers.add(new WeatherHandler());
 		else
-			handlers.add(new HandlerThread(new WeatherHandler(location)));
-		handlers.add(new HandlerThread(new GitHandler()));
+			handlers.add(new WeatherHandler(location));
+		handlers.add(new GitHandler());
 	}
 
 	/**
@@ -74,8 +42,9 @@ public class CLI {
 				e.printStackTrace();
 			}
 		}
-		for (HandlerThread handler : handlers) {
-			System.out.println(handler.getResult());
+		for (Handler handler : handlers) {
+			if(handler.ifOutput)
+				System.out.println(handler.getResult());
 		}
 	}
 
