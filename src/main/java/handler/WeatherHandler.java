@@ -365,7 +365,7 @@ public class WeatherHandler extends Handler {
         todayImg.add(tempImg.get(5) + String.format(sizeFormat, weatherDesc) + "|");
 
         int windDir = Integer.parseInt(current_weather.get("風向"));
-        int rainfall = Integer.parseInt(immediate_weather.get("日累積雨量"));
+        int rainfall = (int) Double.parseDouble(immediate_weather.get("日累積雨量"));
         todayImg.add(
         //@formatter:off
             String.format("💨%s %4sm/s", WeatherImage.getWindDir(windDir), immediate_weather.get("小時最大陣風風速"))
