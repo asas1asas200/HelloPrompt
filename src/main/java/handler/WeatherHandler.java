@@ -351,13 +351,41 @@ public class WeatherHandler extends Handler {
         immediate_weather = producePerspectiveWeather(Jsonfile_N);
     }
 
+    private List<String> renderToday() {
+        List<String> todayImg = new ArrayList<String>();
+        List<String> tempImg = WeatherImage.getTempImage(current_weather.get("現在溫度"), false);
+        todayImg.add(String.format("    Current - %3s      |", location));
+        String weatherDesc = immediate_weather.get("天氣狀態");
+        List<String> weatherImg = WeatherImage.getWeatherImage(weatherDesc);
+        // WeatherImage height: 5, width: 13
+        // TempImage height: 6, width: 13
+        for (int i = 0; i < 5; i++)
+            todayImg.add(tempImg.get(i) + weatherImg.get(i) + "|");
+        String sizeFormat = "%" + (13 + 9 - weatherDesc.length()) + "s";// only support chinese character
+        todayImg.add(tempImg.get(5) + String.format(sizeFormat, weatherDesc) + "|");
+
+        int windDir = Integer.parseInt(current_weather.get("風向"));
+        int rainfall = Integer.parseInt(immediate_weather.get("日累積雨量"));
+        todayImg.add(
+        //@formatter:off
+            String.format("💨%s %4sm/s", WeatherImage.getWindDir(windDir), immediate_weather.get("小時最大陣風風速"))
+            + String.format("🌧️ %3dmm", rainfall)
+            + String.format("💦 %4s", current_weather.get("濕度") + " |")
+        //@formatter:on
+        );
+
+        return todayImg;
+    }
+
     private String render() {
         StringBuilder output = new StringBuilder();
         List<PredictInfoParser> predictInfos = new ArrayList<PredictInfoParser>();
+        List<String> todayImg = renderToday();
         for (Map<String, ArrayList<String>> weatherInfo : predict_weather) {
             predictInfos.add(new PredictInfoParser(weatherInfo));
         }
 
+        output.append(todayImg.get(0));
         // Width of per time: 12
         for (PredictInfoParser info : predictInfos) {
             output.append(String.format("    %s ~ %s   ", info.BEGIN, info.END));
@@ -368,6 +396,7 @@ public class WeatherHandler extends Handler {
         // Width of WeatherImage: 13
         // Width of TempImage: 13
         for (int i = 0; i < 5; i++) {
+            output.append(todayImg.get(i + 1));
             for (PredictInfoParser info : predictInfos) {
                 output.append(info.TEMP_IMAGE.get(i));
                 output.append(info.WEATHER_IMAGE.get(i));
@@ -376,6 +405,7 @@ public class WeatherHandler extends Handler {
             output.append("\n");
         }
 
+        output.append(todayImg.get(6));
         for (PredictInfoParser info : predictInfos) {
             // 9 is temp image layout space: 13 - " (_)".length()
             String sizeFormat = "%" + (13 + 9 - info.DESC.length()) + "s";// only support chinese character
@@ -385,6 +415,7 @@ public class WeatherHandler extends Handler {
         }
         output.append("\n");
 
+        output.append(todayImg.get(7));
         for (PredictInfoParser info : predictInfos) {
             output.append("FEEL: ");
             // 26 is temp + weather image layout length
@@ -396,7 +427,7 @@ public class WeatherHandler extends Handler {
         }
         output.append("\n");
 
-        return output.toString() + '\n' + current_weather.toString() + '\n' + immediate_weather.toString();
+        return output.toString();
     }
 
     /**

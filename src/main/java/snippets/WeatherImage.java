@@ -75,7 +75,21 @@ public class WeatherImage {
 " |" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
 " (" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")         ");
 
+	private final static List<String> TEMP_TODAY = Arrays.asList(
+"  _          ",
+" | |         ",
+" | |" + ANSIColor.RED + "___T%3s°C" + ANSIColor.RESET,
+" |" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
+" |" + ANSIColor.RED_BACKGROUND + " " + ANSIColor.RESET + "|         ",
+" (" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")         ");
+
+	public final static String WIND_DIR = "↑↗→↘↓↙←↖";
+
 //@formatter:on
+
+	public static char getWindDir(int dir) {
+		return WIND_DIR.charAt(dir / 45);
+	}
 
 	public static List<String> getWeatherImage(List<String> weatherDescs) {
 		// Because only index 0 of list contains the information we need.
@@ -94,6 +108,19 @@ public class WeatherImage {
 		temp.set(1, String.format(temp.get(1), high));
 		temp.set(3, String.format(temp.get(3), low));
 		return temp;
+	}
+
+	public static List<String> getTempImage(String temp, Boolean lastLineOffset) {
+		List<String> tempImg = getTempImage(temp);
+		if (!lastLineOffset)
+			tempImg.set(5, " (" + ANSIColor.RED_BACKGROUND + ANSIColor.PURPLE + "_" + ANSIColor.RESET + ")");
+		return tempImg;
+	}
+
+	public static List<String> getTempImage(String temp) {
+		List<String> tempImg = new ArrayList<String>(TEMP_TODAY);
+		tempImg.set(2, String.format(tempImg.get(2), temp.substring(0, temp.length() < 3 ? temp.length() : 3)));
+		return tempImg;
 	}
 
 	public static List<String> getWeatherImage(String weatherDesc) {
