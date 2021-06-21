@@ -43,7 +43,7 @@ public class CLI {
 			}
 		}
 		for (Handler handler : handlers) {
-			if(handler.ifOutput)
+			if (handler.ifOutput)
 				System.out.println(handler.getResult());
 		}
 	}
