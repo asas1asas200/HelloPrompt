@@ -370,7 +370,7 @@ public class WeatherHandler extends Handler {
         //@formatter:off
             String.format("💨%s %4sm/s", WeatherImage.getWindDir(windDir), immediate_weather.get("小時最大陣風風速"))
             + String.format("🌧️ %3dmm", rainfall)
-            + String.format("💦 %4s", current_weather.get("濕度") + " |")
+            + String.format("💦 %4s", current_weather.get("濕度")) + " |"
         //@formatter:on
         );
 
