@@ -22,6 +22,11 @@ public abstract class Handler extends Thread {
 
 	protected String result;
 
+	/** 
+	 * Get the prompt messgae after {@code run()}.
+	 *
+	 * @return {@code String} prompt messages.
+	 */
 	public String getResult() {
 		return result;
 	};
@@ -29,7 +34,6 @@ public abstract class Handler extends Thread {
 	/**
 	 * Call this function to render the result string of handler.
 	 *
-	 * @return {@code String} prompt messages.
 	 */
 	@Override
 	public abstract void run();
