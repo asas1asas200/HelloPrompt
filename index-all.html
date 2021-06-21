@@ -151,11 +151,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">This contructor defined the handlers that will run.</div>
 </dd>
-<dt><a href="CLI.HandlerThread.html" title="class in &lt;Unnamed&gt;"><span class="typeNameLink">CLI.HandlerThread</span></a> - Class in <a href="package-summary.html">&lt;Unnamed&gt;</a></dt>
-<dd>
-<div class="block">A HandlerThread denotes a thread for processing handler, it can run handler
- in parallel and store the result prompt.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="snippets/ANSIColor.html#CYAN">CYAN</a></span> - snippets.<a href="snippets/ANSIColor.html" title="enum in snippets">ANSIColor</a></dt>
 <dd>
 <div class="block">cyan text color.</div>
@@ -190,10 +185,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Get month image by passing an int.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="CLI.HandlerThread.html#getResult()">getResult()</a></span> - Method in class <a href="CLI.HandlerThread.html" title="class in &lt;Unnamed&gt;">CLI.HandlerThread</a></dt>
+<dt><span class="memberNameLink"><a href="handler/Handler.html#getResult()">getResult()</a></span> - Method in class handler.<a href="handler/Handler.html" title="class in handler">Handler</a></dt>
 <dd>
-<div class="block">Get the result prompt after run.</div>
+<div class="block">Get the prompt messgae after <code>run()</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="snippets/WeatherImage.html#getTempImage(java.lang.String)">getTempImage(String)</a></span> - Static method in class snippets.<a href="snippets/WeatherImage.html" title="class in snippets">WeatherImage</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="snippets/WeatherImage.html#getTempImage(java.lang.String,java.lang.Boolean)">getTempImage(String, Boolean)</a></span> - Static method in class snippets.<a href="snippets/WeatherImage.html" title="class in snippets">WeatherImage</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="snippets/WeatherImage.html#getTempImage(java.lang.String,java.lang.String)">getTempImage(String, String)</a></span> - Static method in class snippets.<a href="snippets/WeatherImage.html" title="class in snippets">WeatherImage</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="snippets/WeatherImage.html#getTempImage(java.lang.String,java.lang.String,java.lang.Boolean)">getTempImage(String, String, Boolean)</a></span> - Static method in class snippets.<a href="snippets/WeatherImage.html" title="class in snippets">WeatherImage</a></dt>
@@ -201,6 +200,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="snippets/WeatherImage.html#getWeatherImage(java.lang.String)">getWeatherImage(String)</a></span> - Static method in class snippets.<a href="snippets/WeatherImage.html" title="class in snippets">WeatherImage</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="snippets/WeatherImage.html#getWeatherImage(java.util.List)">getWeatherImage(List&lt;String&gt;)</a></span> - Static method in class snippets.<a href="snippets/WeatherImage.html" title="class in snippets">WeatherImage</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="snippets/WeatherImage.html#getWindDir(int)">getWindDir(int)</a></span> - Static method in class snippets.<a href="snippets/WeatherImage.html" title="class in snippets">WeatherImage</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="handler/GitHandler.html" title="class in handler"><span class="typeNameLink">GitHandler</span></a> - Class in <a href="handler/package-summary.html">handler</a></dt>
 <dd>
@@ -228,14 +229,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><a href="handler/Handler.html" title="class in handler"><span class="typeNameLink">Handler</span></a> - Class in <a href="handler/package-summary.html">handler</a></dt>
 <dd>
-<div class="block">This abstract class defined the basic properties of handler.</div>
+<div class="block">A Handler is a <strong>Thread Object</strong>, it can call by other object
+ and run with new thread.<br>
+ Any handler has a run method to render the result string.<br>
+ If there are multiple handlers, you can configure them like follow example to
+ run in parallel.<br></div>
 </dd>
 <dt><span class="memberNameLink"><a href="handler/Handler.html#%3Cinit%3E()">Handler()</a></span> - Constructor for class handler.<a href="handler/Handler.html" title="class in handler">Handler</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="CLI.HandlerThread.html#%3Cinit%3E(handler.Handler)">HandlerThread(Handler)</a></span> - Constructor for class <a href="CLI.HandlerThread.html" title="class in &lt;Unnamed&gt;">CLI.HandlerThread</a></dt>
-<dd>
-<div class="block">Constructor of HandlerThread, passing a handler to initialize it.</div>
-</dd>
 <dt><a href="HelloPrompt.html" title="class in &lt;Unnamed&gt;"><span class="typeNameLink">HelloPrompt</span></a> - Class in <a href="package-summary.html">&lt;Unnamed&gt;</a></dt>
 <dd>
 <div class="block">This is main class of this project.</div>
@@ -292,16 +293,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">R</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="handler/CalendarHandler.html#readConfig(java.lang.String)">readConfig(String)</a></span> - Method in class handler.<a href="handler/CalendarHandler.html" title="class in handler">CalendarHandler</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="handler/GitHandler.html#readConfig(java.lang.String)">readConfig(String)</a></span> - Method in class handler.<a href="handler/GitHandler.html" title="class in handler">GitHandler</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="handler/Handler.html#readConfig(java.lang.String)">readConfig(String)</a></span> - Method in class handler.<a href="handler/Handler.html" title="class in handler">Handler</a></dt>
-<dd>
-<div class="block">This function can get config file by passing filename.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="handler/WeatherHandler.html#readConfig(java.lang.String)">readConfig(String)</a></span> - Method in class handler.<a href="handler/WeatherHandler.html" title="class in handler">WeatherHandler</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="snippets/ANSIColor.html#RED">RED</a></span> - snippets.<a href="snippets/ANSIColor.html" title="enum in snippets">ANSIColor</a></dt>
 <dd>
 <div class="block">red text color.</div>
@@ -314,11 +305,23 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">reset all color settings include text and background.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="CLI.HandlerThread.html#run()">run()</a></span> - Method in class <a href="CLI.HandlerThread.html" title="class in &lt;Unnamed&gt;">CLI.HandlerThread</a></dt>
+<dt><span class="memberNameLink"><a href="handler/Handler.html#result">result</a></span> - Variable in class handler.<a href="handler/Handler.html" title="class in handler">Handler</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="CLI.html#run()">run()</a></span> - Method in class <a href="CLI.html" title="class in &lt;Unnamed&gt;">CLI</a></dt>
 <dd>
 <div class="block">Call this function to run all handlers and prompt it!</div>
+</dd>
+<dt><span class="memberNameLink"><a href="handler/CalendarHandler.html#run()">run()</a></span> - Method in class handler.<a href="handler/CalendarHandler.html" title="class in handler">CalendarHandler</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="handler/GitHandler.html#run()">run()</a></span> - Method in class handler.<a href="handler/GitHandler.html" title="class in handler">GitHandler</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="handler/Handler.html#run()">run()</a></span> - Method in class handler.<a href="handler/Handler.html" title="class in handler">Handler</a></dt>
+<dd>
+<div class="block">Call this function to render the result string of handler.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="handler/WeatherHandler.html#run()">run()</a></span> - Method in class handler.<a href="handler/WeatherHandler.html" title="class in handler">WeatherHandler</a></dt>
+<dd>
+<div class="block">Initiallize weather data and show it out as image.</div>
 </dd>
 </dl>
 <a id="I:S">
@@ -334,18 +337,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">T</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="handler/CalendarHandler.html#toString()">toString()</a></span> - Method in class handler.<a href="handler/CalendarHandler.html" title="class in handler">CalendarHandler</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="handler/GitHandler.html#toString()">toString()</a></span> - Method in class handler.<a href="handler/GitHandler.html" title="class in handler">GitHandler</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="handler/Handler.html#toString()">toString()</a></span> - Method in class handler.<a href="handler/Handler.html" title="class in handler">Handler</a></dt>
-<dd>
-<div class="block">Call this function to get the prompt string of handler.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="handler/WeatherHandler.html#toString()">toString()</a></span> - Method in class handler.<a href="handler/WeatherHandler.html" title="class in handler">WeatherHandler</a></dt>
-<dd>
-<div class="block">Initiallize weather data and show it out as image.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="snippets/ANSIColor.html#toString()">toString()</a></span> - Method in enum snippets.<a href="snippets/ANSIColor.html" title="enum in snippets">ANSIColor</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -375,11 +366,12 @@ the order they are declared.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="handler/WeatherHandler.html#%3Cinit%3E()">WeatherHandler()</a></span> - Constructor for class handler.<a href="handler/WeatherHandler.html" title="class in handler">WeatherHandler</a></dt>
 <dd>
-<div class="block">Initialize WeatherHandler, set ifOutput as true and set location with default("基隆市").</div>
+<div class="block">Initialize WeatherHandler.<br>
+ Set default location as 基隆市</div>
 </dd>
 <dt><span class="memberNameLink"><a href="handler/WeatherHandler.html#%3Cinit%3E(java.lang.String)">WeatherHandler(String)</a></span> - Constructor for class handler.<a href="handler/WeatherHandler.html" title="class in handler">WeatherHandler</a></dt>
 <dd>
-<div class="block">Initialize WeatherHandler, set ifOutput as true and set location with input argument.</div>
+<div class="block">Initialize WeatherHandler.</div>
 </dd>
 <dt><a href="snippets/WeatherImage.html" title="class in snippets"><span class="typeNameLink">WeatherImage</span></a> - Class in <a href="snippets/package-summary.html">snippets</a></dt>
 <dd>&nbsp;</dd>
@@ -397,6 +389,8 @@ the order they are declared.</div>
 <dd>
 <div class="block">white background color.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="snippets/WeatherImage.html#WIND_DIR">WIND_DIR</a></span> - Static variable in class snippets.<a href="snippets/WeatherImage.html" title="class in snippets">WeatherImage</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a id="I:Y">
 <!--   -->

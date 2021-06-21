@@ -26,8 +26,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
+var data = {"i0":10,"i1":6};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -87,7 +87,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -122,7 +122,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
+<li>java.lang.Thread</li>
+<li>
+<ul class="inheritance">
 <li>handler.Handler</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -130,18 +135,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><code>java.lang.Runnable</code></dd>
+</dl>
+<dl>
 <dt>Direct Known Subclasses:</dt>
 <dd><code><a href="CalendarHandler.html" title="class in handler">CalendarHandler</a></code>, <code><a href="GitHandler.html" title="class in handler">GitHandler</a></code>, <code><a href="WeatherHandler.html" title="class in handler">WeatherHandler</a></code></dd>
 </dl>
 <hr>
 <pre>public abstract class <span class="typeNameLabel">Handler</span>
-extends java.lang.Object</pre>
-<div class="block">This abstract class defined the basic properties of handler. It can be called
- from other class by
+extends java.lang.Thread</pre>
+<div class="block">A Handler is a <strong>Thread Object</strong>, it can call by other object
+ and run with new thread.<br>
+ Any handler has a run method to render the result string.<br>
+ If there are multiple handlers, you can configure them like follow example to
+ run in parallel.<br>
  
  <pre>
- if (handler.ifOutput)
-        System.out.println(handler.toString());
+ for (Handler handler : handlers)
+        handler.start();
  </pre></div>
 </li>
 </ul>
@@ -149,6 +161,23 @@ extends java.lang.Object</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a id="nested.classes.inherited.from.class.java.lang.Thread">
+<!--   -->
+</a>
+<h3>Nested classes/interfaces inherited from class&nbsp;java.lang.Thread</h3>
+<code>java.lang.Thread.State, java.lang.Thread.UncaughtExceptionHandler</code></li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- =========== FIELD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -170,7 +199,19 @@ extends java.lang.Object</pre>
 <div class="block">Judge if this handler will output prompts.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#result">result</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a id="fields.inherited.from.class.java.lang.Thread">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;java.lang.Thread</h3>
+<code>MAX_PRIORITY, MIN_PRIORITY, NORM_PRIORITY</code></li>
+</ul>
 </li>
 </ul>
 </section>
@@ -203,33 +244,40 @@ extends java.lang.Object</pre>
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colSecond" scope="col">Method</th>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>protected abstract void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readConfig(java.lang.String)">readConfig</a></span>&#8203;(java.lang.String&nbsp;fileName)</code></th>
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getResult()">getResult</a></span>()</code></th>
 <td class="colLast">
-<div class="block">This function can get config file by passing filename.</div>
+<div class="block">Get the prompt messgae after <code>run()</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>abstract java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
+<td class="colFirst"><code>abstract void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#run()">run</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Call this function to get the prompt string of handler.</div>
+<div class="block">Call this function to render the result string of handler.</div>
 </td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a id="methods.inherited.from.class.java.lang.Thread">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Thread</h3>
+<code>activeCount, checkAccess, clone, countStackFrames, currentThread, dumpStack, enumerate, getAllStackTraces, getContextClassLoader, getDefaultUncaughtExceptionHandler, getId, getName, getPriority, getStackTrace, getState, getThreadGroup, getUncaughtExceptionHandler, holdsLock, interrupt, interrupted, isAlive, isDaemon, isInterrupted, join, join, join, onSpinWait, resume, setContextClassLoader, setDaemon, setDefaultUncaughtExceptionHandler, setName, setPriority, setUncaughtExceptionHandler, sleep, sleep, start, stop, suspend, toString, yield</code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<code>equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -250,11 +298,20 @@ extends java.lang.Object</pre>
 <a id="ifOutput">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>ifOutput</h4>
 <pre>public&nbsp;java.lang.Boolean ifOutput</pre>
 <div class="block">Judge if this handler will output prompts.</div>
+</li>
+</ul>
+<a id="result">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>result</h4>
+<pre>protected&nbsp;java.lang.String result</pre>
 </li>
 </ul>
 </li>
@@ -286,33 +343,33 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="readConfig(java.lang.String)">
+<a id="getResult()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>readConfig</h4>
-<pre class="methodSignature">protected abstract&nbsp;void&nbsp;readConfig&#8203;(java.lang.String&nbsp;fileName)</pre>
-<div class="block">This function can get config file by passing filename.</div>
+<h4>getResult</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getResult()</pre>
+<div class="block">Get the prompt messgae after <code>run()</code>.</div>
 <dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fileName</code> - filename of config file.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>String</code> prompt messages.</dd>
 </dl>
 </li>
 </ul>
-<a id="toString()">
+<a id="run()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>toString</h4>
-<pre class="methodSignature">public abstract&nbsp;java.lang.String&nbsp;toString()</pre>
-<div class="block">Call this function to get the prompt string of handler.</div>
+<h4>run</h4>
+<pre class="methodSignature">public abstract&nbsp;void&nbsp;run()</pre>
+<div class="block">Call this function to render the result string of handler.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>run</code>&nbsp;in interface&nbsp;<code>java.lang.Runnable</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>String</code> prompt messages.</dd>
+<dd><code>run</code>&nbsp;in class&nbsp;<code>java.lang.Thread</code></dd>
 </dl>
 </li>
 </ul>
@@ -367,7 +424,7 @@ extends java.lang.Object</pre>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>

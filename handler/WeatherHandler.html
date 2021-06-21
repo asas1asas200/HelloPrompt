@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -87,7 +87,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -122,6 +122,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
+<li>java.lang.Thread</li>
+<li>
+<ul class="inheritance">
 <li><a href="Handler.html" title="class in handler">handler.Handler</a></li>
 <li>
 <ul class="inheritance">
@@ -131,9 +134,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><code>java.lang.Runnable</code></dd>
+</dl>
 <hr>
 <pre>public class <span class="typeNameLabel">WeatherHandler</span>
 extends <a href="Handler.html" title="class in handler">Handler</a></pre>
@@ -148,6 +157,23 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a id="nested.classes.inherited.from.class.java.lang.Thread">
+<!--   -->
+</a>
+<h3>Nested classes/interfaces inherited from class&nbsp;java.lang.Thread</h3>
+<code>java.lang.Thread.State, java.lang.Thread.UncaughtExceptionHandler</code></li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- =========== FIELD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -160,7 +186,14 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <!--   -->
 </a>
 <h3>Fields inherited from class&nbsp;handler.<a href="Handler.html" title="class in handler">Handler</a></h3>
-<code><a href="Handler.html#ifOutput">ifOutput</a></code></li>
+<code><a href="Handler.html#ifOutput">ifOutput</a>, <a href="Handler.html#result">result</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a id="fields.inherited.from.class.java.lang.Thread">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;java.lang.Thread</h3>
+<code>MAX_PRIORITY, MIN_PRIORITY, NORM_PRIORITY</code></li>
 </ul>
 </li>
 </ul>
@@ -181,13 +214,14 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">WeatherHandler</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Initialize WeatherHandler, set ifOutput as true and set location with default("基隆市").</div>
+<div class="block">Initialize WeatherHandler.<br>
+ Set default location as 基隆市</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String)">WeatherHandler</a></span>&#8203;(java.lang.String&nbsp;location)</code></th>
 <td class="colLast">
-<div class="block">Initialize WeatherHandler, set ifOutput as true and set location with input argument.</div>
+<div class="block">Initialize WeatherHandler.</div>
 </td>
 </tr>
 </table>
@@ -230,20 +264,13 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>protected void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readConfig(java.lang.String)">readConfig</a></span>&#8203;(java.lang.String&nbsp;fileName)</code></th>
-<td class="colLast">
-<div class="block">This function can get config file by passing filename.</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#run()">run</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Initiallize weather data and show it out as image.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#weatherInit()">weatherInit</a></span>()</code></th>
 <td class="colLast">
@@ -252,11 +279,25 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 </tr>
 </table>
 <ul class="blockList">
+<li class="blockList"><a id="methods.inherited.from.class.handler.Handler">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;handler.<a href="Handler.html" title="class in handler">Handler</a></h3>
+<code><a href="Handler.html#getResult()">getResult</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a id="methods.inherited.from.class.java.lang.Thread">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Thread</h3>
+<code>activeCount, checkAccess, clone, countStackFrames, currentThread, dumpStack, enumerate, getAllStackTraces, getContextClassLoader, getDefaultUncaughtExceptionHandler, getId, getName, getPriority, getStackTrace, getState, getThreadGroup, getUncaughtExceptionHandler, holdsLock, interrupt, interrupted, isAlive, isDaemon, isInterrupted, join, join, join, onSpinWait, resume, setContextClassLoader, setDaemon, setDefaultUncaughtExceptionHandler, setName, setPriority, setUncaughtExceptionHandler, sleep, sleep, start, stop, suspend, toString, yield</code></li>
+</ul>
+<ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<code>equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -281,7 +322,8 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <li class="blockList">
 <h4>WeatherHandler</h4>
 <pre>public&nbsp;WeatherHandler()</pre>
-<div class="block">Initialize WeatherHandler, set ifOutput as true and set location with default("基隆市").</div>
+<div class="block">Initialize WeatherHandler.<br>
+ Set default location as 基隆市</div>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.lang.String)">
@@ -291,7 +333,7 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <li class="blockList">
 <h4>WeatherHandler</h4>
 <pre>public&nbsp;WeatherHandler&#8203;(java.lang.String&nbsp;location)</pre>
-<div class="block">Initialize WeatherHandler, set ifOutput as true and set location with input argument.</div>
+<div class="block">Initialize WeatherHandler.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>location</code> - living city name(chinese)</dd>
@@ -336,14 +378,16 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <pre class="methodSignature">public&nbsp;java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;producePerspectiveWeather&#8203;(org.json.JSONObject&nbsp;json)
                                                                                  throws org.json.JSONException</pre>
 <div class="block">Produce data from given JSONObject.
- <p>搜集並整理「最近」天氣資料.</div>
+ <p>
+ 搜集並整理「最近」天氣資料.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>json</code> - a json file containing weather information.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>Map&lt;String, String&gt;</code> contain many weather element.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>org.json.JSONException</code> - If input JSONObject can be achieve the method's require.</dd>
+<dd><code>org.json.JSONException</code> - If input JSONObject can be achieve the method's
+                       require.</dd>
 </dl>
 </li>
 </ul>
@@ -355,7 +399,8 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <h4>producePredictWeather</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;producePredictWeather&#8203;(org.json.JSONObject&nbsp;json)</pre>
 <div class="block">Produce data from given JSONObject.
- <p>搜集並整理「預報」天氣資料<br>
+ <p>
+ 搜集並整理「預報」天氣資料<br>
  自動存到參數predict_weather.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -372,7 +417,8 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <pre class="methodSignature">public&nbsp;void&nbsp;weatherInit()
                  throws java.lang.Exception</pre>
 <div class="block">Build data.
- <p>build predict_weather, current_weather and immediate_weather<br>
+ <p>
+ build predict_weather, current_weather and immediate_weather<br>
  Use class weatherAPI get each url.<br>
  Catch nessesary data form url.</div>
 <dl>
@@ -381,37 +427,22 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 </dl>
 </li>
 </ul>
-<a id="readConfig(java.lang.String)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>readConfig</h4>
-<pre class="methodSignature">protected&nbsp;void&nbsp;readConfig&#8203;(java.lang.String&nbsp;fileName)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="Handler.html#readConfig(java.lang.String)">Handler</a></code></span></div>
-<div class="block">This function can get config file by passing filename.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Handler.html#readConfig(java.lang.String)">readConfig</a></code>&nbsp;in class&nbsp;<code><a href="Handler.html" title="class in handler">Handler</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fileName</code> - filename of config file.</dd>
-</dl>
-</li>
-</ul>
-<a id="toString()">
+<a id="run()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>toString</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;toString()</pre>
+<h4>run</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;run()</pre>
 <div class="block">Initiallize weather data and show it out as image.
- <p>Use the method weatherInit() and then use method render() tranfer data into image.</div>
+ <p>
+ Use the method weatherInit() and then use method render() tranfer data into
+ image.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Handler.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="Handler.html" title="class in handler">Handler</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the image of the weather.</dd>
+<dd><code>run</code>&nbsp;in interface&nbsp;<code>java.lang.Runnable</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="Handler.html#run()">run</a></code>&nbsp;in class&nbsp;<code><a href="Handler.html" title="class in handler">Handler</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -466,7 +497,7 @@ extends <a href="Handler.html" title="class in handler">Handler</a></pre>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
