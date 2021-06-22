@@ -49,3 +49,8 @@ cd HelloPrompt
 cp build/libs/HelloPrompt-1.0-all.jar ~/Desktop
 echo 'java -jar ~/Desktop/HelloPrompt-1.0-all.jar' >> ~/.bashrc
 ```
+
+## Thanks for
+
+-   [schachmat/wego](https://github.com/schachmat/wego)
+-   [manytools.org](https://manytools.org/hacker-tools/ascii-banner/)
