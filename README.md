@@ -10,7 +10,7 @@ Prompt some informations on your screen when opened terminal.
 
 -   git 2.31.1
 -   gradle 7.0.2
--   opanjdk 15.0.2
+-   openjdk 15.0.2
 
 ## Build
 
