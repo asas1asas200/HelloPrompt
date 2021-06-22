@@ -4,6 +4,8 @@
 
 Prompt some informations on your screen when opened terminal.
 
+![demo](https://i.imgur.com/ChaCjsi.png)
+
 ## Prerequirements
 
 -   git 2.31.1
