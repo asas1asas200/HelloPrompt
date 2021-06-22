@@ -88,7 +88,7 @@ public class WeatherImage {
 //@formatter:on
 
 	public static char getWindDir(int dir) {
-		return WIND_DIR.charAt(dir / 45);
+		return WIND_DIR.charAt(dir / 45 % 8);
 	}
 
 	public static List<String> getWeatherImage(List<String> weatherDescs) {
