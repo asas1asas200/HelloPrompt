@@ -15,6 +15,8 @@ public class CLI {
 
 	/**
 	 * This contructor defined the handlers that will run.
+	 * 
+	 * @param args config behavior of handler.
 	 */
 	public CLI(String[] args) {
 		Map<String, String> argsMapping = parseArgs(args);
