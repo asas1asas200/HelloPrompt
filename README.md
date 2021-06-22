@@ -42,6 +42,20 @@ cd HelloPrompt
     授權碼,{YOUR_TOKEN_HERE}
     ```
 
+## Basic Usage
+
+```sh
+# build first
+./gradlew shadowJar
+
+# run with default location
+java -jar build/libs/HelloPrompt-1.0-all.jar
+
+# run with custom location
+java -jar build/libs/HelloPrompt-1.0-all.jar --location 桃園市
+java -jar build/libs/HelloPrompt-1.0-all.jar -l 新北市
+```
+
 ## Run it when open the terminal
 
 ```sh
