@@ -20,9 +20,12 @@ public abstract class Handler extends Thread {
 	 */
 	public Boolean ifOutput = false;
 
+	/**
+	 * The result by handler rendered.
+	 */
 	protected String result;
 
-	/** 
+	/**
 	 * Get the prompt messgae after {@code run()}.
 	 *
 	 * @return {@code String} prompt messages.
